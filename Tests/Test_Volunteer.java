@@ -1,4 +1,8 @@
 import org.junit.Test;
+import src.Animal;
+import src.Volunteer;
+
+import static org.junit.Assert.assertEquals;
 
 public class Test_Volunteer {
     
