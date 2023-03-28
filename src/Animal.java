@@ -20,6 +20,15 @@ public class Animal {
         this.feedingtime = feedingtime;
     }
 
+    public Animal(String animalID, String animalNickname, String animalSpecies) {
+        this.animalID = animalID;
+        this.animalNickname = animalNickname;
+        this.animalSpecies = animalSpecies;
+        //this.diurnality = diurnality;
+        // this.orphan = orphan;
+        // this.feedingtime = feedingtime;
+    }
+
     public LocalDate getFeedtime() {
 
         return this.feedingtime.getFeedtime();

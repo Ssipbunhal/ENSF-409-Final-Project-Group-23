@@ -2,22 +2,51 @@ package src;
 
 public class MedicalTask {
 
-    private String type;
+    private String description;
     private int timeSpent;
-    private int timeAvailable;
+    private int duration;
     private int qty;
     private boolean volunteerNeeded;
+    private String taskId;
+    private int maxWindow;
+    private Animal animalToTreat;
 
-    public MedicalTask(String type, int timeSpent, int timeAvailable, int qty, boolean volunteerNeeded) {
-        this.type = type;
+
+
+    public MedicalTask(String description, int timeSpent, int duration, int qty, boolean volunteerNeeded) {
+        this.description = description;
         this.timeSpent = timeSpent;
-        this.timeAvailable = timeAvailable;
+        this.duration = duration;
         this.qty = qty;
         this.volunteerNeeded = volunteerNeeded;
     }
 
-    public String getType() {
-        return this.type;
+    public MedicalTask(String taskId,String description, int duration, int maxWindow) {
+        this.description = description;
+        this.taskId = taskId;
+        this.duration = duration;
+        this.maxWindow = maxWindow;
+    }
+
+    public int getMaxWindow() {
+        return maxWindow;
+    }
+
+    public void setMaxWindow(int maxWindow) {
+        this.maxWindow = maxWindow;
+    }
+
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getdescription() {
+        return this.description;
     }
 
     public int getTimespent() {
@@ -25,9 +54,9 @@ public class MedicalTask {
         return this.timeSpent;
     }
 
-    public int getTimeavailable() {
+    public int getduration() {
 
-        return this.timeAvailable;
+        return this.duration;
     }
 
     public int getQty() {
@@ -40,9 +69,9 @@ public class MedicalTask {
         return this.volunteerNeeded;
     }
 
-    public void setType(String type) {
+    public void setdescription(String description) {
 
-        this.type = type;
+        this.description = description;
     }
 
     public void setTimespent(int timeSpent) {
@@ -50,9 +79,9 @@ public class MedicalTask {
         this.timeSpent = timeSpent;
     }
 
-    public void setTimeavailable(int timeAvailable) {
+    public void setduration(int duration) {
 
-        this.timeAvailable = timeAvailable;
+        this.duration = duration;
     }
 
     public void setQty(int qty) {
