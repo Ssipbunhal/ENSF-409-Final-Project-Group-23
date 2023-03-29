@@ -1,5 +1,6 @@
 import org.junit.Test;
-import src.Animal;
+
+import src.Animals.Animal;
 
 public class Test_Animal {
 

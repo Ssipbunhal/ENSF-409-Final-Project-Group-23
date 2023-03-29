@@ -1,5 +1,7 @@
 package src;
 
+import src.Animals.Animal;
+
 public class MedicalTask {
 
     private String description;

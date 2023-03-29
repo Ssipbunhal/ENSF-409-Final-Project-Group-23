@@ -1,5 +1,7 @@
 package src;
 
+import src.Animals.Animal;
+
 public class Treatment {
     private Animal animalToTreat;
     private MedicalTask taskToPreform;

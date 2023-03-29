@@ -6,10 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import src.Animal;
 import src.MedicalTask;
 import src.Treatment;
+import src.Animals.Animal;
+import src.Exceptions.InvalidAnimalType;
+import src.Utils.AnimalCreaterUtil;
 
 public class DbContext {
 
@@ -21,6 +25,9 @@ public class DbContext {
 	private ResultSet result = null;
 	private ResultSet result2 = null;
 	private ResultSet result3 = null;
+
+	private final String ORPHANED_REGEX = "\\b(?!and\\b)\\w+\\b";
+	private final Pattern ORPHANED_PATTERN = Pattern.compile(ORPHANED_REGEX);
 
     
 
@@ -53,8 +60,21 @@ public class DbContext {
 			}
 		}
 	}
+	private ArrayList<Animal> getAnimalList(ResultSet result) throws InvalidAnimalType, SQLException{
+		ArrayList<Animal> searchResults = new ArrayList<Animal>();
+		while (result.next()) {
 
-    public  ArrayList<Animal> getAllAnimals(){
+			var matcher = ORPHANED_PATTERN.matcher(result.getString("AnimalNickname"));
+			while(matcher.find()){
+				searchResults.add(AnimalCreaterUtil.createAnimal(result.getString("AnimalID"),
+				matcher.group(),
+				result.getString("AnimalSpecies")));
+			}
+
+		}
+		return searchResults;
+	}
+    public  ArrayList<Animal> getAllAnimals() throws InvalidAnimalType{
         Statement stmt = null;
 		ArrayList<Animal> searchResults = new ArrayList<Animal>();
 		try {
@@ -62,14 +82,8 @@ public class DbContext {
 
 			stmt = connect.createStatement();
 			result = stmt.executeQuery(query);
-
-			while (result.next()) {
-
-				var animal = new Animal(result.getString("AnimalID"), 
-					result.getString("AnimalNickname"), 
-					result.getString("AnimalSpecies"));
-				searchResults.add(animal);
-			}
+			
+			searchResults = getAnimalList(result);
 
 			stmt.close();
 
@@ -107,7 +121,7 @@ public class DbContext {
 		return searchResults;
     }
 
-	public ArrayList<Treatment> getAllTreatments(){
+	public ArrayList<Treatment> getAllTreatments() throws InvalidAnimalType{
         Statement stmt = null;
 		ArrayList<Treatment> searchResults = new ArrayList<Treatment>();
 		try {
@@ -118,7 +132,10 @@ public class DbContext {
 			result = stmt.executeQuery(query);
 
 			while (result.next()) {
-				Animal animal = new Animal(result.getString("AnimalID"), result.getString("AnimalNickname"), "AnimalSpecies");
+
+				Animal animal = AnimalCreaterUtil.createAnimal(result.getString("AnimalID"),
+								result.getString("AnimalNickname"),
+								result.getString("AnimalSpecies"));
 				var task = new MedicalTask(result.getString("TaskID"),
 					result.getString("Description"),result.getInt("Duration"), 
 					result.getInt("MaxWindow"));

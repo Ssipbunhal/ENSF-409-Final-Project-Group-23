@@ -1,16 +1,47 @@
 package src;
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
+
 
 public class FeedingTime {
-    private LocalDate feedTime;
+    private LocalDateTime feedTime;
+    private int feedingInterval;
+    private int foodPrepTime;
+    private int timeToFeed;
+    private int cageCleaningTime;
 
-    public FeedingTime(LocalDate feedTime) {
+
+    public FeedingTime(LocalDateTime feedTime, int feedingInterval, int foodPrepTime, int timeToFeed, int cageCleaningTime) {
         this.feedTime = feedTime;
-        
+        this.feedingInterval = feedingInterval;
+        this.foodPrepTime = foodPrepTime;
+        this.timeToFeed = timeToFeed;
+        this.cageCleaningTime = cageCleaningTime;
     }
-    public LocalDate getFeedtime() {
+
+    public int getTotalTime(){
+        return foodPrepTime + timeToFeed + cageCleaningTime;
+    }
+
+    public int getFoodPrepTime() {
+        return foodPrepTime;
+    }
+
+    public int getTimeToFeed() {
+        return timeToFeed;
+    }
+
+    public int getCageCleaningTime() {
+        return cageCleaningTime;
+    }
+
+    public LocalDateTime getFeedtime() {
 
         return this.feedTime;
+    }
+
+    public int getFeedingInterval() {
+        return feedingInterval;
     }
 
 }

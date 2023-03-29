@@ -1,6 +1,8 @@
 package src;
 import java.util.ArrayList;
 
+import src.Animals.Animal;
+
 public class WildlifeRescueCentre {
 
     private ArrayList<Animal> animals;
