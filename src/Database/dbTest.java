@@ -10,11 +10,11 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import src.Treatment;
-import src.Exceptions.InvalidAnimalType;
+import src.Exceptions.InvalidAnimalTypeException;
 import src.Schedules.Schedule;
 
 public class dbTest {
-    public static void main(String[]args) throws ClassNotFoundException, SQLException, InvalidAnimalType{
+    public static void main(String[]args) throws ClassNotFoundException, SQLException, InvalidAnimalTypeException{
 		
         var test =new DbContext();
 		var testAnimal  = test.getAllAnimals();//.stream().filter(i->i.getOrphan() == false).collect(Collectors.toList());

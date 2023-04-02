@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import src.Treatment;
 import src.Animals.Animal;
-import src.Exceptions.InvalidAnimalType;
+import src.Exceptions.InvalidAnimalTypeException;
 import src.Tasks.MedicalTask;
 import src.Utils.AnimalCreaterUtil;
 
@@ -54,7 +54,7 @@ public class DbContext {
 		}
 	}
 
-    public  ArrayList<Animal> getAllAnimals() throws InvalidAnimalType{
+    public  ArrayList<Animal> getAllAnimals() throws InvalidAnimalTypeException{
         Statement stmt = null;
 		ArrayList<Animal> searchResults = new ArrayList<Animal>();
 		try {
@@ -107,7 +107,7 @@ public class DbContext {
 		return searchResults;
     }
 
-	public ArrayList<Treatment> getAllTreatments() throws InvalidAnimalType{
+	public ArrayList<Treatment> getAllTreatments() throws InvalidAnimalTypeException{
         Statement stmt = null;
 		ArrayList<Treatment> searchResults = new ArrayList<Treatment>();
 		try {

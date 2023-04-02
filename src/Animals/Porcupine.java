@@ -3,7 +3,7 @@ package src.Animals;
 import java.time.LocalDate;
 
 import src.AnimalCare;
-import src.Exceptions.InvalidAnimalType;
+import src.Exceptions.InvalidAnimalTypeException;
 import src.Utils.AnimalCreaterUtil;
 
 public class Porcupine extends Animal {
@@ -14,7 +14,7 @@ public class Porcupine extends Animal {
     private final int HOUR_INTERVAL_OF_FEEDING = 3;
 
 
-    public Porcupine(String animalID, String animalNickname, String animalSpecies,boolean orp) throws InvalidAnimalType {
+    public Porcupine(String animalID, String animalNickname, String animalSpecies,boolean orp) throws InvalidAnimalTypeException {
         super(animalID,animalNickname, animalSpecies,AnimalCreaterUtil.GetAnimalType(animalSpecies),orp);
         var feedingTime = new AnimalCare(LocalDate.now().atTime(19, 0), 
                                             HOUR_INTERVAL_OF_FEEDING,
