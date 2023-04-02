@@ -3,7 +3,7 @@ package src;
 import java.time.LocalDateTime;
 
 
-public class FeedingTime {
+public class AnimalCare {
     private LocalDateTime feedTime;
     private int feedingInterval;
     private int foodPrepTime;
@@ -11,7 +11,7 @@ public class FeedingTime {
     private int cageCleaningTime;
 
 
-    public FeedingTime(LocalDateTime feedTime, int feedingInterval, int foodPrepTime, int timeToFeed, int cageCleaningTime) {
+    public AnimalCare(LocalDateTime feedTime, int feedingInterval, int foodPrepTime, int timeToFeed, int cageCleaningTime) {
         this.feedTime = feedTime;
         this.feedingInterval = feedingInterval;
         this.foodPrepTime = foodPrepTime;
@@ -19,8 +19,13 @@ public class FeedingTime {
         this.cageCleaningTime = cageCleaningTime;
     }
 
-    public int getTotalTime(){
-        return foodPrepTime + timeToFeed + cageCleaningTime;
+    public int getTotalFeedingTime(int amountOfAnimals){
+        var feedTime = timeToFeed;
+        return foodPrepTime + (feedTime * amountOfAnimals);
+    }
+
+    public int getTotalCleaningTime(int amountOfAnimals){
+        return cageCleaningTime * amountOfAnimals;
     }
 
     public int getFoodPrepTime() {

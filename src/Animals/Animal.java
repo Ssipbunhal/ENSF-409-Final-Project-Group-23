@@ -1,6 +1,6 @@
 package src.Animals;
 
-import src.FeedingTime;
+import src.AnimalCare;
 
 public abstract class Animal {
 
@@ -9,7 +9,7 @@ public abstract class Animal {
     private String animalSpecies;
     private String diurnality;
     private boolean orphan;
-    private FeedingTime feedingTime;
+    private AnimalCare feedingTime;
 
     // public Animal(String animalID, String animalNickname, String animalSpecies,boolean orphan,FeedingTime feedingtime) {
     //     this.animalID = animalID;
@@ -25,27 +25,27 @@ public abstract class Animal {
     //     this.animalSpecies = animalSpecies;
     // }
 
-    public Animal(String animalID, String animalNickname, String animalSpecies, String animalType) {
-        this.animalID = animalID;
-        this.animalNickname = animalNickname;
-        this.animalSpecies = animalSpecies;
-        this.diurnality = animalType;
-    }
+    // public Animal(String animalID, String animalNickname, String animalSpecies, String animalType) {
+    //     this.animalID = animalID;
+    //     this.animalNickname = animalNickname;
+    //     this.animalSpecies = animalSpecies;
+    //     this.diurnality = animalType;
+    // }
 
     public Animal(String animalID, String animalNickname, String animalSpecies, String animalType, boolean orphan) {
         this.animalID = animalID;
         this.animalNickname = animalNickname;
         this.animalSpecies = animalSpecies;
         this.diurnality = animalType;
-        this.orphan = true;
+        this.orphan = orphan;
     }
 
     
-    public FeedingTime getFeedingTime() {
+    public AnimalCare getFeedingTime() {
         return feedingTime;
     }
 
-    public void setFeedingTime(FeedingTime feedingTime) {
+    public void setFeedingTime(AnimalCare feedingTime) {
 
         this.feedingTime = feedingTime;
     }
@@ -79,5 +79,17 @@ public abstract class Animal {
 
         this.orphan = status;
     }
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return "FeedingTask - " +this.animalSpecies;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        var os = (String)o;
+        return os == toString();
+    }
+
 }
 

@@ -2,7 +2,7 @@ package src.Animals;
 
 import java.time.LocalDate;
 
-import src.FeedingTime;
+import src.AnimalCare;
 import src.Exceptions.InvalidAnimalType;
 import src.Utils.AnimalCreaterUtil;
 
@@ -13,9 +13,9 @@ public class Fox extends Animal {
     private final int HOUR_INTERVAL_OF_FEEDING = 3;
 
 
-    public Fox(String animalID, String animalNickname, String animalSpecies) throws InvalidAnimalType {
-        super(animalID,animalNickname, animalSpecies,AnimalCreaterUtil.GetAnimalType(animalSpecies));
-        var feedingTime = new FeedingTime(LocalDate.now().atTime(0, 0), 
+    public Fox(String animalID, String animalNickname, String animalSpecies, boolean orphan) throws InvalidAnimalType {
+        super(animalID,animalNickname, animalSpecies,AnimalCreaterUtil.GetAnimalType(animalSpecies), orphan);
+        var feedingTime = new AnimalCare(LocalDate.now().atTime(0, 0), 
                                             HOUR_INTERVAL_OF_FEEDING,
                                             MIN_FOOD_PREP,
                                             MIN_TO_FEED_FOX,

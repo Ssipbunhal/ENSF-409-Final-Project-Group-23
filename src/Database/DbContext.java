@@ -1,18 +1,14 @@
 package src.Database;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import src.MedicalTask;
 import src.Treatment;
 import src.Animals.Animal;
 import src.Exceptions.InvalidAnimalType;
+import src.Tasks.MedicalTask;
 import src.Utils.AnimalCreaterUtil;
 
 public class DbContext {
@@ -23,17 +19,14 @@ public class DbContext {
 
 	private Connection connect = null;
 	private ResultSet result = null;
-	private ResultSet result2 = null;
-	private ResultSet result3 = null;
 
-	private final String ORPHANED_REGEX = "\\b(?!and\\b)\\w+\\b";
-	private final Pattern ORPHANED_PATTERN = Pattern.compile(ORPHANED_REGEX);
+	private final String ORPHANED_REGEX = ",|\\band\\b";
+
 
     
 
 	// constructor
 	public DbContext() throws SQLException, ClassNotFoundException {
-        // "jdbc:mysql://localhost:3306/SENG401Project?useSSL=false", "root","password"
 		DBURL = "jdbc:mysql://localhost:3306/EWR?useSSL=false";
 		USERNAME = "root";
 		PASSWORD = "password";
@@ -60,20 +53,7 @@ public class DbContext {
 			}
 		}
 	}
-	private ArrayList<Animal> getAnimalList(ResultSet result) throws InvalidAnimalType, SQLException{
-		ArrayList<Animal> searchResults = new ArrayList<Animal>();
-		while (result.next()) {
 
-			var matcher = ORPHANED_PATTERN.matcher(result.getString("AnimalNickname"));
-			while(matcher.find()){
-				searchResults.add(AnimalCreaterUtil.createAnimal(result.getString("AnimalID"),
-				matcher.group(),
-				result.getString("AnimalSpecies")));
-			}
-
-		}
-		return searchResults;
-	}
     public  ArrayList<Animal> getAllAnimals() throws InvalidAnimalType{
         Statement stmt = null;
 		ArrayList<Animal> searchResults = new ArrayList<Animal>();
@@ -83,7 +63,13 @@ public class DbContext {
 			stmt = connect.createStatement();
 			result = stmt.executeQuery(query);
 			
-			searchResults = getAnimalList(result);
+			while (result.next()) {
+				var multipleNames = result.getString("AnimalNickname").split(ORPHANED_REGEX);
+				var orphan = multipleNames.length != 0;
+				searchResults.add(AnimalCreaterUtil.createAnimal(result.getString("AnimalID"),
+						result.getString("AnimalNickname"),
+						result.getString("AnimalSpecies"),orphan));
+			}
 
 			stmt.close();
 
@@ -125,20 +111,24 @@ public class DbContext {
         Statement stmt = null;
 		ArrayList<Treatment> searchResults = new ArrayList<Treatment>();
 		try {
-			String query = "SELECT * FROM TREATMENTS AS TR JOIN ANIMALS AS A ON TR.AnimalID" + 
-			 "= A.AnimalID JOIN tasks AS T ON T.TaskID = TR.TaskID";
+			String query = "SELECT * FROM TREATMENTS AS TR JOIN ANIMALS AS A ON TR.AnimalID= A.AnimalID JOIN tasks" +
+			" AS T ON T.TaskID = TR.TaskID order by A.AnimalSpecies";
 
 			stmt = connect.createStatement();
 			result = stmt.executeQuery(query);
 
 			while (result.next()) {
-
+				var multipleNames = result.getString("AnimalNickname").split(ORPHANED_REGEX);
+				var orphan = multipleNames.length != 1;
+				System.out.println(orphan);
 				Animal animal = AnimalCreaterUtil.createAnimal(result.getString("AnimalID"),
 								result.getString("AnimalNickname"),
-								result.getString("AnimalSpecies"));
+								result.getString("AnimalSpecies"),orphan);
+								// String description, int timeSpent, int duration, int qty, boolean volunteerNeeded
 				var task = new MedicalTask(result.getString("TaskID"),
 					result.getString("Description"),result.getInt("Duration"), 
 					result.getInt("MaxWindow"));
+
 				var treatment = new Treatment(animal, task, result.getInt("StartHour"));
 				searchResults.add(treatment);
 			}

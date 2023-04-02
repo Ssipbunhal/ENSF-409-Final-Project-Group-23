@@ -16,17 +16,17 @@ public class AnimalCreaterUtil {
     private final static String BEAVER = "beaver";
 
 
-    public static Animal createAnimal(String animalId, String animalNickName, String animalSpecies) throws InvalidAnimalType{
+    public static Animal createAnimal(String animalId, String animalNickName, String animalSpecies, boolean orp) throws InvalidAnimalType{
         if(animalSpecies.equals(FOX)){
-            return new Fox(animalId, animalNickName, animalSpecies);
+            return new Fox(animalId, animalNickName, animalSpecies, orp);
         } else if(animalSpecies.equals(COYOTE)){
-            return new Coyote(animalId, animalNickName, animalSpecies);
+            return new Coyote(animalId, animalNickName, animalSpecies, orp);
         }else if(animalSpecies.equals(PORCUPINE)){
-            return new Porcupine(animalId, animalNickName, animalSpecies);
+            return new Porcupine(animalId, animalNickName, animalSpecies, orp);
         }else if(animalSpecies.equals(RACCON)){
-            return new Raccoon(animalId, animalNickName, animalSpecies);
+            return new Raccoon(animalId, animalNickName, animalSpecies, orp);
         }else if(animalSpecies.equals(PORCUPINE)){
-            return new Beaver(animalId, animalNickName, animalSpecies);
+            return new Beaver(animalId, animalNickName, animalSpecies, orp);
         }else {
             throw new InvalidAnimalType();
         }

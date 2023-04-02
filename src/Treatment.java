@@ -1,6 +1,7 @@
 package src;
 
 import src.Animals.Animal;
+import src.Tasks.MedicalTask;
 
 public class Treatment {
     private Animal animalToTreat;
@@ -30,5 +31,11 @@ public class Treatment {
     }
     public void setStartHour(int startHour) {
         this.startHour = startHour;
+    }
+
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return "MedicalTask - " +this.taskToPreform.getId();
     }
 }

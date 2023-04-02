@@ -2,18 +2,19 @@ package src;
 import java.util.ArrayList;
 
 import src.Animals.Animal;
+import src.Tasks.MedicalTask;
 
 public class WildlifeRescueCentre {
 
     private ArrayList<Animal> animals;
     private ArrayList<MedicalTask> medicalTasks;
-    private ArrayList<FeedingTime> feedingTime;
+    private ArrayList<AnimalCare> feedingTime;
     private ArrayList<Volunteer> volunteers;
 
     public WildlifeRescueCentre() {
         animals = new ArrayList<Animal>();
         medicalTasks = new ArrayList<MedicalTask>();
-        feedingTime = new ArrayList<FeedingTime>();
+        feedingTime = new ArrayList<AnimalCare>();
         volunteers = new ArrayList<Volunteer>();
     }
 
@@ -25,11 +26,11 @@ public class WildlifeRescueCentre {
         this.medicalTasks.add(task);
     }
 
-    public ArrayList<FeedingTime> getFeedingTime() {
+    public ArrayList<AnimalCare> getFeedingTime() {
         return this.feedingTime;
     }
 
-    public void addFeedingTime(FeedingTime time) {
+    public void addFeedingTime(AnimalCare time) {
         this.feedingTime.add(time);
     }
 

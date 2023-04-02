@@ -3,6 +3,8 @@ package src;
 import java.util.ArrayList;
 import java.util.List;
 
+import src.Tasks.MedicalTask;
+
 public class Volunteer extends Employee {
     private List<Availability> availability;
     private ArrayList<MedicalTask> medicalTasks;
