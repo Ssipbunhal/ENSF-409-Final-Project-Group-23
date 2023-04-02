@@ -3,9 +3,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import src.Treatment;
@@ -19,7 +16,6 @@ public class Schedule {
 
     private ArrayList<Volunteer> volunteer;
     private ArrayList<MedicalTask> medicalTasks;
-    private boolean backupRequired;
 
     private Map<Integer,ArrayList<ScheduledTask>> schedule = new HashMap<Integer,ArrayList<ScheduledTask>>();
     
@@ -27,27 +23,32 @@ public class Schedule {
     public Schedule() {
         this.volunteer = new ArrayList<Volunteer>();
         this.medicalTasks = new ArrayList<MedicalTask>();
-        this.backupRequired = false;
     }
 
 
-    public void createSchedule(ArrayList<Animal> animals,ArrayList<Treatment> treatments){
+    public Map<Integer,ArrayList<ScheduledTask>> createSchedule(ArrayList<Animal> animals,ArrayList<Treatment> treatments){
+        schedule.clear();
         addMedicalTasks(treatments);
         AddFeedingTasks(animals);
         // TODO REMOVE ONLY TEST CODE
-        for(var task : schedule.entrySet()){
-            System.out.println("Time: "+task.getKey());
-            for(var j : task.getValue()){
-                System.out.println("\tTask: " + j.getTaskDescription());
-                System.out.println("\tQty:" + (j.getQuantity() == 0 ? "-" : j.getQuantity()));
-                System.out.println("\tTime spent: " + j.getTimeSpent());
-                System.out.println("\tTime available: " + sumOfTime(task.getKey()));
-                System.out.println();
-            }
-            if(!scheduleFullOnHour(task.getKey())){
-                System.out.println("\t* Backup needed. *");
-            }
-        }
+        // for(var task : schedule.entrySet()){
+        //     System.out.println("Time: "+task.getKey());
+        //     for(var j : task.getValue()){
+        //         System.out.println("\tTask: " + j.getTaskDescription());
+        //         System.out.println("\tQty:" + (j.getQuantity() == 0 ? "-" : j.getQuantity()));
+        //         System.out.println("\tTime spent: " + j.getTimeSpent());
+        //         System.out.println("\tTime available: " + sumOfTime(task.getKey()));
+        //         System.out.println();
+        //     }
+        //     if(!scheduleFullOnHour(task.getKey())){
+        //         System.out.println("\t* Backup needed. *");
+        //     }
+        // }
+        return schedule;
+    }
+
+    public Map<Integer,ArrayList<ScheduledTask>> getSchedule(){
+        return schedule;
     }
 
     public void addVolunteer(Volunteer volunteer) {
@@ -60,10 +61,6 @@ public class Schedule {
         this.medicalTasks.add(medicalTask);
     }
 
-    public void setBackuprequired(boolean backupRequired) {
-
-        this.backupRequired = backupRequired;
-    }
 
     private void AddFeedingTasks(ArrayList<Animal> animals) {
        
