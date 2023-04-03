@@ -1,21 +1,38 @@
 package Tests;
 
 import org.junit.Test;
+import src.Animals.Animal;
+import src.Animals.Beaver;
+import src.Exceptions.InvalidAnimalType;
+import src.Tasks.MedicalTask;
+import src.WildlifeRescueCentre;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class Test_WildlifeRescueCentre {
     /*
      * Test creating a new medical task
      */
     @Test
-    public void test_add_MedicalTask() {
+    public void test_add_MedicalTask() throws InvalidAnimalType {
+        WildlifeRescueCentre centre = new WildlifeRescueCentre();
 
+        MedicalTask task = new MedicalTask("123", "animal cleaning",25, 30);
+        centre.addMedicalTasks(task);
+        ArrayList<MedicalTask> tasks =  centre.getMedicalTasks();
+
+        assertTrue(tasks.contains(task));
     }
     /*
      * Test adding a new feeding time
      */
     @Test
-    public void test_add_FeedingTime() {
-
+    public void test_add_FeedingTime() throws InvalidAnimalType {
+        Animal animal = new Beaver("123", "beav","herbivore",true);
+        animal.getFeedingTime();
     }
     /*
      * Test adding a new volunteer
@@ -30,6 +47,7 @@ public class Test_WildlifeRescueCentre {
      */
     @Test
     public void test_add_Animal() {
+        //Animal animal = new Beaver("123", "beav","herbivore",true);
 
     }
     /*
