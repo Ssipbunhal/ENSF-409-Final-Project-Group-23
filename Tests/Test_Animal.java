@@ -66,7 +66,18 @@ public class Test_Animal {
             InvalidAnimalTypeException.class, 
         () -> new Beaver("Test", "beaver test", "beaverWRONG",false));
     }
-    
+    @Test
+    public void invalidMultipleIds(){
+        assertThrows("Should throw invalidMultipleIdsException if same AnimalIds assigned",
+                InvalidAnimalTypeException.class,
+                () -> {
+                    new Beaver("Test", "beaver test", "beaver",false);
+                    new Beaver("Test", "beaver test", "beaver",false);
+                }
+
+        );
+    }
+
     @Test
     public void testFeedCoyote() {
         // Animal coyote = new Animal("coyote");
