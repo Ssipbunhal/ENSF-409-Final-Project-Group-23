@@ -45,10 +45,10 @@ public abstract class Animal {
         return feedingTime;
     }
 
-    public void setFeedingTime(AnimalCare feedingTime) {
+    // public void setFeedingTime(AnimalCare feedingTime) {
 
-        this.feedingTime = feedingTime;
-    }
+    //     this.feedingTime = feedingTime;
+    // }
 
     public String getAnimalID() {
 
