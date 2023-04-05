@@ -4,8 +4,8 @@ public class MedicalTask  extends ScheduledTask {
     private int maxWindow;
 
 
-    public MedicalTask(String taskId,String description, int duration, int maxWindow) {
-        super(taskId,description, 0, duration);
+    public MedicalTask(String taskId,String description, int duration, int maxWindow, String name) {
+        super(taskId,description, 0, duration,name);
         this.maxWindow = maxWindow;
     }
 
@@ -18,5 +18,8 @@ public class MedicalTask  extends ScheduledTask {
         this.maxWindow = maxWindow;
     }
 
+    // public String getInitialDesc(String desc){
+    //     return "* " + desc +" ( #names# )";
+    // }
 }
 

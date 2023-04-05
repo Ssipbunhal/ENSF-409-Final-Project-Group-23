@@ -29,7 +29,7 @@ public class DbContext {
 	public DbContext() throws SQLException, ClassNotFoundException {
 		DBURL = "jdbc:mysql://localhost:3306/ewr?useSSL=false";
 		USERNAME = "root";
-		PASSWORD = "password1";
+		PASSWORD = "password";
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		connect = DriverManager.getConnection(DBURL, USERNAME, PASSWORD);
 	}
@@ -93,7 +93,8 @@ public class DbContext {
 			while (result.next()) {
 				var task = new MedicalTask(result.getString("TaskID"),
 					result.getString("Description"),result.getInt("Duration"), 
-					result.getInt("MaxWindow"));
+					result.getInt("MaxWindow"),
+					"");
 				searchResults.add(task);
 			}
 
@@ -127,7 +128,8 @@ public class DbContext {
 								// String description, int timeSpent, int duration, int qty, boolean volunteerNeeded
 				var task = new MedicalTask(result.getString("TaskID"),
 					result.getString("Description"),result.getInt("Duration"), 
-					result.getInt("MaxWindow"));
+					result.getInt("MaxWindow"),
+					result.getString("AnimalNickname"));
 
 				var treatment = new Treatment(animal, task, result.getInt("StartHour"));
 				searchResults.add(treatment);

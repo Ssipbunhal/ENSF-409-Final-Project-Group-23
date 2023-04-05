@@ -1,4 +1,3 @@
-package Tests;
 
 import org.junit.Test;
 import src.AnimalCare;
@@ -27,7 +26,7 @@ public class Test_WildlifeRescueCentre {
     public void test_add_MedicalTask()  {
         WildlifeRescueCentre centre = new WildlifeRescueCentre();
 
-        MedicalTask task = new MedicalTask("123", "animal cleaning",25, 30);
+        MedicalTask task = new MedicalTask("123", "animal cleaning",25, 30,"");
         centre.addMedicalTasks(task);
         ArrayList<MedicalTask> tasks =  centre.getMedicalTasks();
 
@@ -118,9 +117,9 @@ public class Test_WildlifeRescueCentre {
     public void test_add_get_MedicalTasks() {
         WildlifeRescueCentre centre = new WildlifeRescueCentre();
 
-        MedicalTask task1 = new MedicalTask("1233", "animal cleaning",25, 30);
-        MedicalTask task2 = new MedicalTask("123", "h",25, 30);
-        MedicalTask task3 = new MedicalTask("12333", "ggg",25, 30);
+        MedicalTask task1 = new MedicalTask("1233", "animal cleaning",25, 30,"");
+        MedicalTask task2 = new MedicalTask("123", "h",25, 30,"");
+        MedicalTask task3 = new MedicalTask("12333", "ggg",25, 30,"");
 
         centre.addMedicalTasks(task1);
         centre.addMedicalTasks(task2);

@@ -1,31 +1,53 @@
 package src.Tasks;
 
-import src.Employee;
 
-public abstract class ScheduledTask implements Comparable<ScheduledTask> {
+public class ScheduledTask implements Comparable<ScheduledTask> {
 
-    private String taskDescription;
+    // private String taskDescription;
     private int quantity;
     private int timeSpent;
     private String id;
+    private String animalNames;
+    private String normalTaskDescription;
 
-    public ScheduledTask(String id,String taskDescription, int quantity, int timeSpent) {
-        this.taskDescription = taskDescription;
+    public String getNormalTaskDescription() {
+        return normalTaskDescription;
+    }
+
+    public ScheduledTask(String id,String taskDescription, int quantity, int timeSpent, String animalNames) {
+        this.normalTaskDescription = taskDescription;
         this.quantity = quantity;
         this.timeSpent = timeSpent;
         this.id = id;
+        this.animalNames = animalNames;
     }
 
+    public ScheduledTask(MedicalTask task, String name) {
+        this.normalTaskDescription = task.getNormalTaskDescription();
+        this.quantity = 0;
+        this.timeSpent = task.getTimeSpent();
+        this.id = task.getId();
+        this.animalNames = task.getAnimalNames();
+        this.animalNames = name;
+    }
+
+    public String getAnimalNames(){
+        return animalNames;
+    }
+    public void setAnimalNames(String newNames){
+        this.animalNames =  newNames;
+    }
 
     public String getId() {
         return id;
     }
-    public String getTaskDescription() {
-        return taskDescription;
+
+    public String getFormattedTaskDescription() {
+        return String.format("* %s (%s%s)", this.normalTaskDescription,
+                            this.quantity  == 0 ? "" : String.valueOf(quantity)+": ",
+                            this.animalNames); 
     }
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
-    }
+
     public int getQuantity() {
         return quantity;
     }
