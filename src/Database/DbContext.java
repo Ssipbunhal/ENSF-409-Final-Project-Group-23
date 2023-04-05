@@ -65,7 +65,7 @@ public class DbContext {
 			
 			while (result.next()) {
 				var multipleNames = result.getString("AnimalNickname").split(ORPHANED_REGEX);
-				var orphan = multipleNames.length != 0;
+				var orphan = multipleNames.length != 1;
 				searchResults.add(AnimalCreaterUtil.createAnimal(result.getString("AnimalID"),
 						result.getString("AnimalNickname"),
 						result.getString("AnimalSpecies"),orphan));

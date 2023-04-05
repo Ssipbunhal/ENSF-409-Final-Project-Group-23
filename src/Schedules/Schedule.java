@@ -64,8 +64,10 @@ public class Schedule {
 
 
     private void AddFeedingTasks(ArrayList<Animal> animals) {
-       
         for(var animal : animals){
+            if(animal.getOrphan()){
+                continue;
+            }
            var time = animal.getFeedingTime().getFeedtime();
            var feedingInterval = animal.getFeedingTime().getFeedingInterval();         
             var incrementCounter = 0;
@@ -116,7 +118,6 @@ public class Schedule {
 
     private LocalDateTime IncrementTimeIfNeed(LocalDateTime time, int feedingInterval, int incrementCounter) {
         if(!scheduleFullOnHour(time.getHour())){
-
             while(!scheduleFullOnHour(time.getHour())){
                 if(time.getHour() >= 24 || incrementCounter == feedingInterval)
                 {
