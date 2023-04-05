@@ -1,23 +1,24 @@
-package src.FrontEnd;
-
+package src.Front_End;
 import src.Animals.Animal;
 import src.Database.DbContext;
 import src.Exceptions.InvalidAnimalTypeException;
 import src.Schedules.Schedule;
-import src.Tasks.MedicalTask;
 import src.Tasks.ScheduledTask;
 import src.Treatment;
+import src.Tasks.MedicalTask;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.StringWriter;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 
 
-public class GenerateSchedule extends JFrame implements ActionListener {
+public class AddMedicalTasks extends JFrame implements ActionListener {
     private JButton executeButton;
     private JTextArea outputArea;
     private JCheckBox medicalCheckbox;
@@ -25,8 +26,9 @@ public class GenerateSchedule extends JFrame implements ActionListener {
     private ArrayList<Treatment> treatments;
     private ArrayList<MedicalTask> medicalTasks;
     
-    public GenerateSchedule() {
+    public AddMedicalTasks() {
         createUI();
+
     }
     
     public void createUI() {
