@@ -2,8 +2,12 @@
 
 import org.junit.Test;
 
-public class Test_MedicalTask {
+public class Test_Tasks {
 
+
+    public void tasksAreInherited(){
+        
+    }
     /*
      * 
      */
