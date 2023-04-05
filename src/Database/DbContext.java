@@ -29,7 +29,7 @@ public class DbContext {
 	public DbContext() throws SQLException, ClassNotFoundException {
 		DBURL = "jdbc:mysql://localhost:3306/ewr?useSSL=false";
 		USERNAME = "root";
-		PASSWORD = "password";
+		PASSWORD = "password1";
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		connect = DriverManager.getConnection(DBURL, USERNAME, PASSWORD);
 	}
@@ -65,7 +65,7 @@ public class DbContext {
 			
 			while (result.next()) {
 				var multipleNames = result.getString("AnimalNickname").split(ORPHANED_REGEX);
-				var orphan = multipleNames.length != 0;
+				var orphan = multipleNames.length != 1;
 				searchResults.add(AnimalCreaterUtil.createAnimal(result.getString("AnimalID"),
 						result.getString("AnimalNickname"),
 						result.getString("AnimalSpecies"),orphan));
