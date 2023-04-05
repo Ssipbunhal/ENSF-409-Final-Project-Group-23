@@ -29,7 +29,7 @@ public class DbContext {
 	public DbContext() throws SQLException, ClassNotFoundException {
 		DBURL = "jdbc:mysql://localhost:3306/ewr?useSSL=false";
 		USERNAME = "root";
-		PASSWORD = "password";
+		PASSWORD = "password1";
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		connect = DriverManager.getConnection(DBURL, USERNAME, PASSWORD);
 	}

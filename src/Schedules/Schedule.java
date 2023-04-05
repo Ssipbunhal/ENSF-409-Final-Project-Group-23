@@ -31,19 +31,19 @@ public class Schedule {
         addMedicalTasks(treatments);
         AddFeedingTasks(animals);
         //TODO REMOVE ONLY TEST CODE
-        for(var task : schedule.entrySet()){
-            System.out.println("Time: "+task.getKey());
-            for(var j : task.getValue()){
-                System.out.println("\tTask: " + j.getTaskDescription());
-                System.out.println("\tQty:" + (j.getQuantity() == 0 ? "-" : j.getQuantity()));
-                System.out.println("\tTime spent: " + j.getTimeSpent());
-                System.out.println("\tTime available: " + sumOfTime(task.getKey()));
-                System.out.println();
-            }
-            if(!scheduleFullOnHour(task.getKey())){
-                System.out.println("\t* Backup needed. *");
-            }
-        }
+        // for(var task : schedule.entrySet()){
+        //     System.out.println("Time: "+task.getKey());
+        //     for(var j : task.getValue()){
+        //         System.out.println("\tTask: " + j.getTaskDescription());
+        //         System.out.println("\tQty:" + (j.getQuantity() == 0 ? "-" : j.getQuantity()));
+        //         System.out.println("\tTime spent: " + j.getTimeSpent());
+        //         System.out.println("\tTime available: " + sumOfTime(task.getKey()));
+        //         System.out.println();
+        //     }
+        //     if(!scheduleFullOnHour(task.getKey())){
+        //         System.out.println("\t* Backup needed. *");
+        //     }
+        // }
         return schedule;
     }
 
