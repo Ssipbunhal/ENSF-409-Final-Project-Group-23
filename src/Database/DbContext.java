@@ -27,7 +27,7 @@ public class DbContext {
 
 	// constructor
 	public DbContext() throws SQLException, ClassNotFoundException {
-		DBURL = "jdbc:mysql://localhost:3306/EWR?useSSL=false";
+		DBURL = "jdbc:mysql://localhost:3306/ewr?useSSL=false";
 		USERNAME = "root";
 		PASSWORD = "password";
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -93,7 +93,8 @@ public class DbContext {
 			while (result.next()) {
 				var task = new MedicalTask(result.getString("TaskID"),
 					result.getString("Description"),result.getInt("Duration"), 
-					result.getInt("MaxWindow"));
+					result.getInt("MaxWindow"),
+					"");
 				searchResults.add(task);
 			}
 
@@ -120,14 +121,15 @@ public class DbContext {
 			while (result.next()) {
 				var multipleNames = result.getString("AnimalNickname").split(ORPHANED_REGEX);
 				var orphan = multipleNames.length != 1;
-				System.out.println(orphan);
+				//System.out.println(orphan);
 				Animal animal = AnimalCreaterUtil.createAnimal(result.getString("AnimalID"),
 								result.getString("AnimalNickname"),
 								result.getString("AnimalSpecies"),orphan);
 								// String description, int timeSpent, int duration, int qty, boolean volunteerNeeded
 				var task = new MedicalTask(result.getString("TaskID"),
 					result.getString("Description"),result.getInt("Duration"), 
-					result.getInt("MaxWindow"));
+					result.getInt("MaxWindow"),
+					result.getString("AnimalNickname"));
 
 				var treatment = new Treatment(animal, task, result.getInt("StartHour"));
 				searchResults.add(treatment);

@@ -30,20 +30,21 @@ public class Schedule {
         schedule.clear();
         addMedicalTasks(treatments);
         AddFeedingTasks(animals);
-        // TODO REMOVE ONLY TEST CODE
-        // for(var task : schedule.entrySet()){
-        //     System.out.println("Time: "+task.getKey());
-        //     for(var j : task.getValue()){
-        //         System.out.println("\tTask: " + j.getTaskDescription());
-        //         System.out.println("\tQty:" + (j.getQuantity() == 0 ? "-" : j.getQuantity()));
-        //         System.out.println("\tTime spent: " + j.getTimeSpent());
-        //         System.out.println("\tTime available: " + sumOfTime(task.getKey()));
-        //         System.out.println();
-        //     }
-        //     if(!scheduleFullOnHour(task.getKey())){
-        //         System.out.println("\t* Backup needed. *");
-        //     }
-        // }
+        //TODO REMOVE ONLY TEST CODE
+        for(var task : schedule.entrySet()){
+            System.out.println("Time: "+task.getKey());
+            for(var j : task.getValue()){
+                System.out.println("\tTask: " + j.getNormalTaskDescription());
+                System.out.println("\tFormattedTask: " + j.getFormattedTaskDescription());
+                System.out.println("\tQty:" + (j.getQuantity() == 0 ? "-" : j.getQuantity()));
+                System.out.println("\tTime spent: " + j.getTimeSpent());
+                System.out.println("\tTime available: " + sumOfTime(task.getKey()));
+                System.out.println();
+            }
+            if(!scheduleFullOnHour(task.getKey())){
+                System.out.println("\t* Backup needed. *");
+            }
+        }
         return schedule;
     }
 
@@ -87,7 +88,13 @@ public class Schedule {
 
     private void AddNewFeedingTask(Animal animal, LocalDateTime time) {
         var m = new ArrayList<ScheduledTask>();
-        var sTask = new FeedingTask(animal.toString(),  animal.getFeedingTime());
+        var sTask = new FeedingTask(animal.toString(),  
+        animal.getFeedingTime(),
+        // "Feeding -" + " " + animal.getAnimalNickname()
+        FeedingTask.getInitialDesc(animal.getAnimalNickname(),animal.getAnimalSpecies()), 
+        animal.getAnimalNickname()
+        );
+
         m.add(sTask);
         schedule.put(time.getHour(), m);
     }
@@ -96,10 +103,12 @@ public class Schedule {
     private void AddToExistingFeedingTask(Animal animal, ArrayList<ScheduledTask> task, ScheduledTask feed) {
         if(task.contains(feed)){            
            var feeding = (FeedingTask)feed;
-           feeding.addAnimalToTask();
+           feeding.addAnimalToTask(animal.getAnimalNickname());
         } else {
             var sTask = new FeedingTask(animal.toString(), 
-            animal.getFeedingTime());
+            animal.getFeedingTime(),
+            FeedingTask.getInitialDesc(animal.getAnimalNickname(),animal.getAnimalSpecies()),
+            animal.getAnimalNickname());
             task.add(sTask);         
         }
     }
@@ -124,10 +133,12 @@ public class Schedule {
         for(var treatment : treatments){
             if(schedule.containsKey(treatment.getStartHour())){
                 var task = schedule.get(treatment.getStartHour());
-                task.add(treatment.getTaskToPreform());
+                task.add(new ScheduledTask(treatment.getTaskToPreform(),
+                            treatment.getAnimalToTreat().getAnimalNickname()));
             }else {
                 var set = new ArrayList<ScheduledTask>();
-                set.add(treatment.getTaskToPreform());
+                set.add(new ScheduledTask(treatment.getTaskToPreform(),
+                        treatment.getAnimalToTreat().getAnimalNickname()));
                 schedule.put(treatment.getStartHour(), set);
             }
         }

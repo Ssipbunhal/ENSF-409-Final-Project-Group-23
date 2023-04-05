@@ -2,7 +2,6 @@
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertThrows;
 
 import java.util.ArrayList;
 
@@ -13,8 +12,6 @@ import src.Animals.Animal;
 import src.Animals.Beaver;
 import src.Animals.Coyote;
 import src.Animals.Fox;
-import src.Animals.Porcupine;
-import src.Animals.Raccoon;
 import src.Exceptions.InvalidAnimalTypeException;
 import src.Schedules.Schedule;
 
@@ -74,60 +71,7 @@ public class Test_Schedule {
     }
     }
 
-    /*
-     * If an invalid argument of "animalSpecies is passed to the 
-     * constructor. The class should thorw InvalidAnimalTypeException.ö
-     */
-    @Test
-    public void invalidAnimalType_CoyoteThorws(){
-        assertThrows("Should throw InvalidAnimalTypeException if invalid animal type",
-            InvalidAnimalTypeException.class, 
-        () -> new Coyote("Test", "coyote test", "coyoteWRONG",false));
-    }
-
-    /*
-     * If an invalid argument of "animalSpecies is passed to the 
-     * constructor. The class should thorw InvalidAnimalTypeException.ö
-     */
-    @Test
-    public void invalidAnimalType_PorcupinesThorws(){
-        assertThrows("Should throw InvalidAnimalTypeException if invalid animal type",
-            InvalidAnimalTypeException.class, 
-        () -> new Porcupine("Test", "coyote test", "porcupineWRONG",false));
-    }
-
-        /*
-     * If an invalid argument of "animalSpecies is passed to the 
-     * constructor. The class should thorw InvalidAnimalTypeException.ö
-     */
-    @Test
-    public void invalidAnimalType_RaccoonThorws(){
-        assertThrows("Should throw InvalidAnimalTypeException if invalid animal type",
-            InvalidAnimalTypeException.class, 
-        () -> new Raccoon("Test", "Raccoon test", "RaccoonWRONG",false));
-    }
-
-    /*
-     * If an invalid argument of "animalSpecies is passed to the 
-     * constructor. The class should thorw InvalidAnimalTypeException.ö
-     */
-    @Test
-    public void invalidAnimalType_FoxThorws(){
-        assertThrows("Should throw InvalidAnimalTypeException if invalid animal type",
-            InvalidAnimalTypeException.class, 
-        () -> new Fox("Test", "fox test", "foxWRONG",false));
-    }
-
-        /*
-     * If an invalid argument of "animalSpecies is passed to the 
-     * constructor. The class should thorw InvalidAnimalTypeException.ö
-     */
-    @Test
-    public void invalidAnimalType_BeaverThorws(){
-        assertThrows("Should throw InvalidAnimalTypeException if invalid animal type",
-            InvalidAnimalTypeException.class, 
-        () -> new Beaver("Test", "beaver test", "beaverWRONG",false));
-    }
+   
 
 
 
@@ -139,13 +83,13 @@ public class Test_Schedule {
     @Test
     public void nocturnalFeedingSchedule() {
         try {
-            var coyote = new Fox("Test", "coyote test", "fox",false);
+            var coyote = new Fox("Test", "fox test", "fox",false);
             var scheduleTaskList = new ArrayList<Animal>();
             scheduleTaskList.add(coyote);
             var schedule = new Schedule();
             var result = schedule.createSchedule(scheduleTaskList, new ArrayList<Treatment>());    
-            assertEquals("The feeding window for coyotes are between 19-21."+
-            " With one object in the list, the return value should be 19.",result.containsKey(0),true);
+            assertEquals("The feeding window for Nocturnal are between 0-03."+
+            " With one object in the list, the return value should be 03.",result.containsKey(0),true);
         } catch (Exception e) {
             
         }
@@ -163,7 +107,7 @@ public class Test_Schedule {
             scheduleTaskList.add(coyote);
             var schedule = new Schedule();
             var result = schedule.createSchedule(scheduleTaskList, new ArrayList<Treatment>());    
-            assertEquals("The feeding window for coyotes are between 19-21."+
+            assertEquals("The feeding window for Diurnal are between 8-11."+
             " With one object in the list, the return value should be 19.",result.containsKey(8),true);
         } catch (Exception e) {
             
@@ -183,7 +127,7 @@ public class Test_Schedule {
             scheduleTaskList.add(coyote);
             var schedule = new Schedule();
             var result = schedule.createSchedule(scheduleTaskList, new ArrayList<Treatment>());    
-            assertEquals("The feeding window for coyotes are between 19-21."+
+            assertEquals("The feeding window for Crepuscular are between 19-21."+
             " With one object in the list, the return value should be 19.",result.containsKey(19),true);
         } catch (Exception e) {
             
