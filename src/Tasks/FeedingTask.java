@@ -16,9 +16,10 @@ public class FeedingTask extends ScheduledTask{
         return feedingId;
     }
 
-    public void addAnimalToTask(){
+    public void addAnimalToTask(String name){
         setQuantity(getQuantity() +1);
         setTimeSpent(feedingTime.getTotalFeedingTime(getQuantity()));
+        setTaskDescription(getTaskDescription()+", " + name);
     }
     
 }
