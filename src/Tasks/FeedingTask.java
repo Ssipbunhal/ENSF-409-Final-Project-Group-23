@@ -6,8 +6,8 @@ public class FeedingTask extends ScheduledTask{
     private String feedingId;
     private AnimalCare feedingTime;
     
-    public FeedingTask(String feedingId, AnimalCare feedingTask) {
-        super(feedingId,feedingId, 1, feedingTask.getTotalFeedingTime(1));
+    public FeedingTask(String feedingId, AnimalCare feedingTask, String desc) {
+        super(feedingId,desc , 1, feedingTask.getTotalFeedingTime(1));
         this.feedingId = feedingId;
         this.feedingTime = feedingTask;
     }

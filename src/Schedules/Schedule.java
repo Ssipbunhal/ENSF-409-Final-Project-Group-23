@@ -87,7 +87,7 @@ public class Schedule {
 
     private void AddNewFeedingTask(Animal animal, LocalDateTime time) {
         var m = new ArrayList<ScheduledTask>();
-        var sTask = new FeedingTask(animal.toString(),  animal.getFeedingTime());
+        var sTask = new FeedingTask(animal.toString(),  animal.getFeedingTime(),animal.getAnimalNickname());
         m.add(sTask);
         schedule.put(time.getHour(), m);
     }
@@ -99,7 +99,8 @@ public class Schedule {
            feeding.addAnimalToTask(animal.getAnimalNickname());
         } else {
             var sTask = new FeedingTask(animal.toString(), 
-            animal.getFeedingTime());
+            animal.getFeedingTime(),
+            animal.getAnimalNickname());
             task.add(sTask);         
         }
     }
