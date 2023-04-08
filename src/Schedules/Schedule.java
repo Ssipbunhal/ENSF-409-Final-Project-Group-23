@@ -26,26 +26,15 @@ public class Schedule {
         this.medicalTasks = new ArrayList<MedicalTask>();
     }
 
-
+    /*
+     * First this functions clears the hashmap. 
+     * Secondly, the medical treatments are added to the schedule. 
+     * Thirdly, the feeding tasks are added. 
+     */
     public Map<Integer,ArrayList<ScheduledTask>> createSchedule(ArrayList<Animal> animals,ArrayList<Treatment> treatments){
         schedule.clear();
         addMedicalTasks(treatments);
         AddFeedingTasks(animals);
-        // //TODO REMOVE ONLY TEST CODE
-        for(var task : schedule.entrySet()){
-            System.out.println("Time: "+task.getKey());
-            for(var j : task.getValue()){
-                System.out.println("\tTask: " + j.getNormalTaskDescription());
-                System.out.println("\tFormattedTask: " + j.getFormattedTaskDescription());
-                System.out.println("\tQty:" + (j.getQuantity() == 0 ? "-" : j.getQuantity()));
-                System.out.println("\tTime spent: " + j.getTimeSpent());
-                System.out.println("\tTime available: " + sumOfTime(task.getKey()));
-                System.out.println();
-            }
-            if(!scheduleFullOnHour(task.getKey())){
-                System.out.println("\t* Backup needed. *");
-            }
-        }
         return schedule;
     }
 
