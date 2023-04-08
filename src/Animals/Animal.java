@@ -87,8 +87,11 @@ public abstract class Animal {
 
     @Override
     public boolean equals(Object o){
-        var os = (String)o;
-        return os == toString();
+        if(o instanceof String){
+            var os = (String)o;
+            return os == toString();
+        }
+        return o == this;
     }
 
 }
