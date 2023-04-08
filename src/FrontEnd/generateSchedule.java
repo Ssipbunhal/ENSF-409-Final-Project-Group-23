@@ -6,6 +6,7 @@ import src.Schedules.Schedule;
 import src.Tasks.MedicalTask;
 import src.Tasks.ScheduledTask;
 import src.Treatment;
+import src.WildlifeRescueCentre;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,134 +17,99 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 public class generateSchedule extends JFrame implements ActionListener {
-    private JTextField taskIDInput;
-    private JTextField taskDescriptionInput;
-    private JTextField taskDurationInput;
-    private JTextField taskMaxWindowInput;
-    private JTextField taskNameInput;
-    private JTextField animalIDInput;
-    private JTextField animalNicknameInput;
-    private JTextField animalSpeciesInput;
-    private JCheckBox orphanedInput;
-    private JComboBox animalInput;
-    private JTextField taskInput;
-    private JTextField startHourInput;
+//    private JTextField taskIDInput;
+//    private JTextField taskDescriptionInput;
+//    private JTextField taskDurationInput;
+//    private JTextField taskMaxWindowInput;
+//    private JTextField taskNameInput;
+//    private JTextField animalIDInput;
+//    private JTextField animalNicknameInput;
+//    private JTextField animalSpeciesInput;
+//    private JCheckBox orphanedInput;
+//    private JComboBox animalInput;
+//    private JTextField taskInput;
+//    private JTextField startHourInput;
     private JButton submitButton;
     private JButton executeButton;
     private JTextArea outputArea;
-    private ArrayList<Animal> animals;
+//    private ArrayList<Animal> animals;
     private ArrayList<Treatment> treatments = new ArrayList<Treatment>();
+    private WildlifeRescueCentre centre = new WildlifeRescueCentre();
 
-    public generateSchedule() {
+    private JButton animalInputButton;
+    private JButton medicalTaskInputButton;
+    public generateSchedule() throws SQLException, InvalidAnimalTypeException, ClassNotFoundException {
         createUI();
     }
-
-    public void createUI() {
+    public generateSchedule(generateSchedule previousSchedule) throws SQLException, InvalidAnimalTypeException, ClassNotFoundException {
+        createUI();
+    }
+    public void createUI() throws SQLException, InvalidAnimalTypeException, ClassNotFoundException {
         setTitle("WildLife Rescue Centre");
-        setSize(1000, 800);
+        setSize(800, 700);
         setLayout(new GridBagLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        createAnimalInputFields();
-        createTaskInputFields();
-        createStartHourInputField();
-        createSubmitButton();
-        createGenerateScheduleButton();
-        createOutputArea();
-    }
-
-    private void createAnimalInputFields() {
         GridBagConstraints inputConstraints = new GridBagConstraints();
         inputConstraints.gridx = 0;
         inputConstraints.gridy = 1;
         inputConstraints.insets = new Insets(0, 10, 10, 10);
 
-        String[] animalChoices = {"fox", "coyote", "beaver", "porcupine", "raccoon"};
-        animalInput = new JComboBox<>(animalChoices);
-        add(new JLabel("Animal Type: "), inputConstraints);
+        animalInputButton = new JButton("Add Animal");
+        animalInputButton.addActionListener(this);
+        add(animalInputButton);
         inputConstraints.gridx = 1;
-        add(animalInput, inputConstraints);
-        inputConstraints.gridx = 0;
-        inputConstraints.gridy = 2;
-        animalIDInput = new JTextField(10);
-        add(new JLabel("Animal ID: "), inputConstraints);
-        inputConstraints.gridx = 1;
-        add(animalIDInput, inputConstraints);
 
-        inputConstraints.gridx = 0;
-        inputConstraints.gridy = 3;
-        animalNicknameInput = new JTextField(10);
-        add(new JLabel("Animal Nickname: "), inputConstraints);
-        inputConstraints.gridx = 1;
-        add(animalNicknameInput, inputConstraints);
+        medicalTaskInputButton = new JButton("Add Medical Task");
+        medicalTaskInputButton.addActionListener(this);
+        add(medicalTaskInputButton);
 
-
-        inputConstraints.gridx = 0;
-        inputConstraints.gridy = 4;
-        orphanedInput = new JCheckBox("Orphaned");
-        add(orphanedInput, inputConstraints);
-
-        inputConstraints.gridy = 6;
-        inputConstraints.gridy = 7;
+        createGenerateScheduleButton();
+        createOutputArea();
+        executeCode();
     }
 
-    private void createTaskInputFields() {
-        GridBagConstraints inputConstraints = new GridBagConstraints();
-        inputConstraints.gridx = 0;
-        inputConstraints.gridy = 8;
-        inputConstraints.insets = new Insets(0, 10, 10, 10);
+//    private void createAnimalInputFields() {
+//        GridBagConstraints inputConstraints = new GridBagConstraints();
+//        inputConstraints.gridx = 0;
+//        inputConstraints.gridy = 1;
+//        inputConstraints.insets = new Insets(0, 10, 10, 10);
+//
+//        String[] animalChoices = {"fox", "coyote", "beaver", "porcupine", "raccoon"};
+//        animalInput = new JComboBox<>(animalChoices);
+//        add(new JLabel("Animal Type: "), inputConstraints);
+//        inputConstraints.gridx = 1;
+//        add(animalInput, inputConstraints);
+//        inputConstraints.gridx = 0;
+//        inputConstraints.gridy = 2;
+//        animalIDInput = new JTextField(10);
+//        add(new JLabel("Animal ID: "), inputConstraints);
+//        inputConstraints.gridx = 1;
+//        add(animalIDInput, inputConstraints);
+//
+//        inputConstraints.gridx = 0;
+//        inputConstraints.gridy = 3;
+//        animalNicknameInput = new JTextField(10);
+//        add(new JLabel("Animal Nickname: "), inputConstraints);
+//        inputConstraints.gridx = 1;
+//        add(animalNicknameInput, inputConstraints);
+//
+//
+//        inputConstraints.gridx = 0;
+//        inputConstraints.gridy = 4;
+//        orphanedInput = new JCheckBox("Orphaned");
+//        add(orphanedInput, inputConstraints);
+//
+//        inputConstraints.gridy = 6;
+//        inputConstraints.gridy = 7;
+//    }
 
 
-        taskIDInput = new JTextField(10);
-        add(new JLabel("Task ID: "), inputConstraints);
-        inputConstraints.gridx = 1;
-        add(taskIDInput, inputConstraints);
-
-        inputConstraints.gridx = 0;
-        inputConstraints.gridy = 9;
-        taskDescriptionInput = new JTextField(10);
-        add(new JLabel("Task Description: "), inputConstraints);
-        inputConstraints.gridx = 1;
-        add(taskDescriptionInput, inputConstraints);
-
-        inputConstraints.gridx = 0;
-        inputConstraints.gridy = 10;
-        taskDurationInput = new JTextField(10);
-        add(new JLabel("Task Duration: "), inputConstraints);
-        inputConstraints.gridx = 1;
-        add(taskDurationInput, inputConstraints);
-
-        inputConstraints.gridx = 0;
-        inputConstraints.gridy = 11;
-        taskMaxWindowInput = new JTextField(10);
-        add(new JLabel("Task Max Window: "), inputConstraints);
-        inputConstraints.gridx = 1;
-        add(taskMaxWindowInput, inputConstraints);
-
-        inputConstraints.gridx = 0;
-        inputConstraints.gridy = 12;
-        taskNameInput = new JTextField(10);
-        add(new JLabel("Task Name: "), inputConstraints);
-        inputConstraints.gridx = 1;
-        add(taskNameInput, inputConstraints);
-
-
-    }
-
-    private void createStartHourInputField() {
-        GridBagConstraints inputConstraints = new GridBagConstraints();
-        inputConstraints.gridx = 0;
-        inputConstraints.gridy = 13;
-        inputConstraints.insets = new Insets(5, 10, 5, 10);
-
-        startHourInput = new JTextField(10);
-        add(new JLabel("Start Hour: "), inputConstraints);
-        inputConstraints.gridx = 1;
-        add(startHourInput, inputConstraints);
-    }
 
     private void createSubmitButton() {
         GridBagConstraints inputConstraints = new GridBagConstraints();
@@ -188,79 +154,43 @@ public class generateSchedule extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e);
-        try {
-            if (e.getSource() == executeButton) {
+        if (e.getSource() == animalInputButton) {
+            AnimalInputForm animalInputForm = new AnimalInputForm(this);
+            animalInputForm.setVisible(true);
+        } else if (e.getSource() == medicalTaskInputButton) {
+            MedicalTaskInputForm medicalTaskInputForm = null;
+            try {
+                medicalTaskInputForm = new MedicalTaskInputForm(this);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            } catch (InvalidAnimalTypeException ex) {
+                throw new RuntimeException(ex);
+            }
+            medicalTaskInputForm.setVisible(true);
+        } else if(e.getSource() == executeButton){
+            try {
+                outputArea.setText(""); // Clear the output area
                 executeCode();
+            } catch (InvalidAnimalTypeException ex) {
+                throw new RuntimeException(ex);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
             }
-             else if (e.getSource() == submitButton) {
-                addTreatment();
-            }
-        } catch (InvalidAnimalTypeException ex) {
-            throw new RuntimeException(ex);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        } catch (ClassNotFoundException ex) {
-            throw new RuntimeException(ex);
         }
 
     }
-    public void addTreatment() throws InvalidAnimalTypeException {
-        String animalType = (String) animalInput.getSelectedItem();
-        String animalID = animalIDInput.getText();
-        String animalNickname = animalNicknameInput.getText();
-        boolean orphaned = orphanedInput.isSelected();
-        int startHour = Integer.parseInt(startHourInput.getText());
-        String taskID = taskIDInput.getText();
-        String taskDescription = taskDescriptionInput.getText();
-        int taskDuration = Integer.parseInt(taskDurationInput.getText());
-        int taskMaxWindow = Integer.parseInt(taskMaxWindowInput.getText());
-        String taskName = taskNameInput.getText();
 
-
-
-        Animal fetchedAnimal;
-        switch (animalType) {
-            case "fox":
-                fetchedAnimal = new Fox(animalID, animalNickname, animalType, orphaned);
-                break;
-            case "coyote":
-                fetchedAnimal = new Coyote(animalID, animalNickname, animalType, orphaned);
-                break;
-            case "beaver":
-                fetchedAnimal = new Beaver(animalID, animalNickname, animalType, orphaned);
-                break;
-            case "porcupine":
-                fetchedAnimal = new Porcupine(animalID, animalNickname, animalType, orphaned);
-                break;
-            case "raccoon":
-                fetchedAnimal = new Raccoon(animalID, animalNickname, animalType, orphaned);
-                break;
-            default:
-                throw new RuntimeException("Invalid animal type");
-        }
-        MedicalTask fetchedTask = new MedicalTask(taskID, taskDescription, taskDuration, taskMaxWindow, taskName);
-
-        Treatment newTreatment = new Treatment(fetchedAnimal, fetchedTask, startHour);
-        treatments.add(newTreatment);
-
-        animalIDInput.setText("");
-        animalNicknameInput.setText("");
-        orphanedInput.setSelected(false);
-        startHourInput.setText("");
-        taskIDInput.setText("");
-        taskDescriptionInput.setText("");
-        taskDurationInput.setText("");
-        taskMaxWindowInput.setText("");
-        taskNameInput.setText("");
-    }
 
     public void executeCode() throws InvalidAnimalTypeException, SQLException, ClassNotFoundException {
         var test = new DbContext();
         var testAnimal = test.getAllAnimals();
         var testTreatments = test.getAllTreatments();
-        testTreatments.addAll(treatments);
-
+        testTreatments.addAll(MedicalTaskInputForm.treatments);
+        testAnimal.addAll(AnimalInputForm.animals);
         try {
             var schedule = new Schedule();
             Map<Integer, ArrayList<ScheduledTask>> schedule1 = schedule.createSchedule(testAnimal, testTreatments);
@@ -275,11 +205,8 @@ public class generateSchedule extends JFrame implements ActionListener {
                 outputArea.append("\n");
 
                 for (var j : task.getValue()) {
-                    outputArea.append("* " + j.getNormalTaskDescription());
+                    outputArea.append(j.getFormattedTaskDescription());
 
-                    if (j.getQuantity() > 0) {
-                        outputArea.append(" (" + j.getQuantity()+")" );
-                    }
                     outputArea.append("\n");
                 }
 
@@ -296,7 +223,16 @@ public class generateSchedule extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
-            generateSchedule frame = new generateSchedule();
+            generateSchedule frame = null;
+            try {
+                frame = new generateSchedule();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (InvalidAnimalTypeException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             frame.setVisible(true);
         });
     }
