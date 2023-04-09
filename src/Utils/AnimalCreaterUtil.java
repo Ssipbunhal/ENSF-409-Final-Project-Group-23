@@ -15,7 +15,16 @@ public class AnimalCreaterUtil {
     private final static String RACCON = "raccoon";
     private final static String BEAVER = "beaver";
 
-
+    /**
+     * Helpers method which the database uses to create animal 
+     * based on a magic string in the database.
+     * @param animalId
+     * @param animalNickName
+     * @param animalSpecies
+     * @param orp
+     * @return
+     * @throws InvalidAnimalTypeException
+     */
     public static Animal createAnimal(String animalId, String animalNickName, String animalSpecies, boolean orp) throws InvalidAnimalTypeException{
         if(animalSpecies.equals(FOX)){
             return new Fox(animalId, animalNickName, animalSpecies, orp);
@@ -33,6 +42,12 @@ public class AnimalCreaterUtil {
         
     }
     
+    /**
+     * Gets the type of animal based on the species in the database.
+     * @param databaseName
+     * @return
+     * @throws InvalidAnimalTypeException
+     */
     public static String GetAnimalType(String databaseName) throws InvalidAnimalTypeException{
         if(databaseName.equals(FOX) || databaseName.equals(RACCON)){
             return "Nocturnal";

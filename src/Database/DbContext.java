@@ -25,12 +25,11 @@ public class DbContext {
 	public DbContext() throws SQLException, ClassNotFoundException {
 		DBURL = "jdbc:mysql://localhost:3306/ewr?useSSL=false";
 		USERNAME = "root";
-		PASSWORD = "password1";
+		PASSWORD = "password";
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		connect = DriverManager.getConnection(DBURL, USERNAME, PASSWORD);
 	}
 
-	// close all connections
 	private void closeAll() {
 		if (connect != null) {
 			try {
@@ -52,8 +51,10 @@ public class DbContext {
 		}
 	}
 
-	/*
+	/**
 	 * Will return all the animals from the database.
+	 * @throws InvalidAnimalTypeException
+	 * @Return ArrayList<Animal> from the database
 	 */
     public  ArrayList<Animal> getAllAnimals() throws InvalidAnimalTypeException{
         Statement stmt = null;
@@ -81,8 +82,9 @@ public class DbContext {
 		return searchResults;
     }
 
-	/*
+	/**
 	 * Will return all the medical tasks from the database.
+	 * @Return ArrayList<MedicalTask>  from the database
 	 */
     public ArrayList<MedicalTask> getAllTasks(){
         Statement stmt = null;
@@ -109,8 +111,10 @@ public class DbContext {
 		}
 		return searchResults;
     }
-	/*
+	/**
 	 * Will return all the treatments from the database.
+	 * @throws InvalidAnimalTypeException
+	 * @Return ArrayList<Treatment> from the database
 	 */
 	public ArrayList<Treatment> getAllTreatments() throws InvalidAnimalTypeException{
         Statement stmt = null;

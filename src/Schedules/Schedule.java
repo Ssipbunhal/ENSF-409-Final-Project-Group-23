@@ -28,10 +28,11 @@ public class Schedule {
         this.medicalTasks = new ArrayList<MedicalTask>();
     }
 
-    /*
+    /**
      * First this functions clears the hashmap. 
      * Secondly, the medical treatments are added to the schedule. 
      * Thirdly, the feeding tasks are added. 
+     * @return Map<Integer,ArrayList<ScheduledTask>> returns a recreated version of the schedule.
      */
     public Map<Integer,ArrayList<ScheduledTask>> createSchedule(ArrayList<Animal> animals,ArrayList<Treatment> treatments){
         schedule.clear();
@@ -40,23 +41,39 @@ public class Schedule {
         return schedule;
     }
 
+
+    /**
+     * @return  Map<Integer,ArrayList<ScheduledTask>> returns the schedule.
+     */
     public Map<Integer,ArrayList<ScheduledTask>> getSchedule(){
         return schedule;
     }
 
+    /**
+     * 
+     * @param volunteer
+     */
     public void addVolunteer(Volunteer volunteer) {
 
         this.volunteer.add(volunteer);
     }
 
+    /**
+     * 
+     * @param medicalTask
+     */
     public void addMedicalTask(MedicalTask medicalTask) {
 
         this.medicalTasks.add(medicalTask);
     }
 
-    /*
+    /**
      * If returns -1 no optimalTime go with random insert. Else use the return value
      * where all animals can be inserted.
+     * @param start
+     * @param end
+     * @param totalTimeNeeded
+     * @return int the best place to insert into the schedule.
      */
     private int findOptimalTime(int start,int end, int totalTimeNeeded){
         int optimalTime = -1;
@@ -77,12 +94,13 @@ public class Schedule {
         return optimalTime;
     }
 
-    /*
+    /**
      * This code will first remove all orphans from the list as they are not a feeding task.
      * The code will group the animals based on their species.
      * Then findOptimalTime will try to find an hour where all animals can be inserted. 
      * If the code returns -1 no such hours exists and the animals will be randomly inserted. 
      * else all the animals will be inserted into that hour. 
+     * @param list
      */
     private void AddFeedingTasks(ArrayList<Animal> list) {
         var animals = removeOrphanFromList(list);
@@ -120,8 +138,10 @@ public class Schedule {
         }
     }
 
-    /*
+    /**
      * Removes all oprthans from an arraylist
+     * @param animals
+     * @return
      */
     private  List<Animal> removeOrphanFromList(ArrayList<Animal> animals){
         return animals.stream()
@@ -130,8 +150,10 @@ public class Schedule {
                 .collect(Collectors.toList());
     }
 
-    /*
+    /**
      * inserts a single animal to the schedule based on an hour given
+     * @param animal
+     * @param time
      */
     private void AddNewFeedingTask(Animal animal, LocalDateTime time) {
         var m = new ArrayList<ScheduledTask>();
@@ -144,8 +166,10 @@ public class Schedule {
         schedule.put(time.getHour(), m);
     }
 
-    /*
+    /**
      * Inserts a list of animals to the schedule based on an hour.
+     * @param animals
+     * @param time
      */
     private void AddNewFeedingTask(List<Animal> animals, int time) {
         var animal =  animals.get(0);
@@ -165,8 +189,12 @@ public class Schedule {
         m.add(sTask);
         schedule.put(time, m);
     }
-    /*
+
+    /**
      * updates the schedule with a new animal
+     * @param animal
+     * @param task
+     * @param feed
      */
     private void AddToExistingFeedingTask(Animal animal, ArrayList<ScheduledTask> task, ScheduledTask feed) {
         if(task.contains(feed)){            
@@ -181,8 +209,12 @@ public class Schedule {
         }
     }
 
-    /*
+    /**
      * Finds a time where a the schedule is not full
+     * @param time
+     * @param feedingInterval
+     * @param addedTime
+     * @return
      */
     private LocalDateTime IncrementTimeIfNeed(LocalDateTime time, int feedingInterval, int addedTime) {
         var incrementCounter = 0;
@@ -199,9 +231,11 @@ public class Schedule {
         return time;
     }
 
-    /*
+
+    /**
      * Adds medical tasks to the schedule. If the maxwindow allows if, the medical 
      * task will be moved if the schedule is full on the inital hour. 
+     * @param treatments
      */
     private void addMedicalTasks(ArrayList<Treatment> treatments) {
         Collections.sort(treatments, (o1, o2) -> o1.getTaskToPreform().getMaxWindow().compareTo(o2.getTaskToPreform().getMaxWindow()));
@@ -223,8 +257,10 @@ public class Schedule {
         }
     }
 
-    /*
-     * Helper method to get the total time from an arraylist.
+    /**
+     * Helper method to get the total time from an arraylist. 
+     * @param hour
+     * @return
      */
     public int sumOfTime(int hour){
         var sum = 0;
@@ -237,8 +273,12 @@ public class Schedule {
         return sum;
     }
 
-    /*
+
+    /**
      * Helper method to see if the schedule is full
+     * @param hour
+     * @param addedTime
+     * @return
      */
     public boolean scheduleFullOnHour(int hour, int addedTime){
         var sum = addedTime;

@@ -11,7 +11,7 @@ import src.Exceptions.InvalidAnimalTypeException;
 
 public class Test_Animal {
 
-     /*
+     /**
      * If an invalid argument of "animalSpecies is passed to the 
      * constructor. The class should thorw InvalidAnimalTypeException.ö
      */
@@ -22,7 +22,7 @@ public class Test_Animal {
         () -> new Coyote("Test", "coyote test", "coyoteWRONG",false));
     }
 
-    /*
+    /**
      * If an invalid argument of "animalSpecies is passed to the 
      * constructor. The class should thorw InvalidAnimalTypeException.ö
      */
@@ -33,7 +33,7 @@ public class Test_Animal {
         () -> new Porcupine("Test", "coyote test", "porcupineWRONG",false));
     }
 
-        /*
+    /**
      * If an invalid argument of "animalSpecies is passed to the 
      * constructor. The class should thorw InvalidAnimalTypeException.ö
      */
@@ -44,7 +44,7 @@ public class Test_Animal {
         () -> new Raccoon("Test", "Raccoon test", "RaccoonWRONG",false));
     }
 
-    /*
+    /**
      * If an invalid argument of "animalSpecies is passed to the 
      * constructor. The class should thorw InvalidAnimalTypeException.ö
      */
@@ -55,7 +55,7 @@ public class Test_Animal {
         () -> new Fox("Test", "fox test", "foxWRONG",false));
     }
 
-        /*
+    /**
      * If an invalid argument of "animalSpecies is passed to the 
      * constructor. The class should thorw InvalidAnimalTypeException.ö
      */

@@ -16,12 +16,22 @@ public class FeedingTask extends ScheduledTask{
         return feedingId;
     }
 
+    /**
+     * Increments the task with a new animal.
+     * @param name name of the animal
+     */
     public void addAnimalToTask(String name){
         setQuantity(getQuantity() +1);
         setTimeSpent(feedingTime.getTotalFeedingTime(getQuantity()));
         this.setAnimalNames(this.getAnimalNames() + ", " + name);
     }
     
+    /**
+     * static helper method which has the a string concatenation.
+     * @param name
+     * @param animalSpecies
+     * @return
+     */
     public static String getInitialDesc(String name,String animalSpecies){
         return "Feeding - " + animalSpecies;
     }
