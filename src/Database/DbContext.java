@@ -22,10 +22,6 @@ public class DbContext {
 
 	private final String ORPHANED_REGEX = ",|\\band\\b";
 
-
-    
-
-	// constructor
 	public DbContext() throws SQLException, ClassNotFoundException {
 		DBURL = "jdbc:mysql://localhost:3306/ewr?useSSL=false";
 		USERNAME = "root";
@@ -40,20 +36,25 @@ public class DbContext {
 			try {
 				connect.close();
 			} catch (SQLException e) {
-				System.err.print("Failed to close connection to database.");
-				// System.exit(1);
+				e.printStackTrace();
+				System.out.println("The database error connecting to the database.. The system will exit.");
+				System.exit(0);
 			}
 		}
 		if (result != null) {
 			try {
 				result.close();
 			} catch (SQLException e) {
-				System.err.print("Failed to close ResultSet object.");
-				// System.exit(1);
+				e.printStackTrace();
+				System.out.println("The database error connecting to the database.. The system will exit.");
+				System.exit(0);
 			}
 		}
 	}
 
+	/*
+	 * Will return all the animals from the database.
+	 */
     public  ArrayList<Animal> getAllAnimals() throws InvalidAnimalTypeException{
         Statement stmt = null;
 		ArrayList<Animal> searchResults = new ArrayList<Animal>();
@@ -75,12 +76,14 @@ public class DbContext {
 
 		} catch (SQLException e) {
 			closeAll();
-			System.err.println("SQLException in searchItems.");
-			// System.exit(1);
+			e.printStackTrace();
 		}
 		return searchResults;
     }
 
+	/*
+	 * Will return all the medical tasks from the database.
+	 */
     public ArrayList<MedicalTask> getAllTasks(){
         Statement stmt = null;
 		ArrayList<MedicalTask> searchResults = new ArrayList<MedicalTask>();
@@ -102,18 +105,19 @@ public class DbContext {
 
 		} catch (SQLException e) {
 			closeAll();
-			System.err.println("SQLException in searchItems.");
-			// System.exit(1);
+			e.printStackTrace();
 		}
 		return searchResults;
     }
-
+	/*
+	 * Will return all the treatments from the database.
+	 */
 	public ArrayList<Treatment> getAllTreatments() throws InvalidAnimalTypeException{
         Statement stmt = null;
 		ArrayList<Treatment> searchResults = new ArrayList<Treatment>();
 		try {
 			String query = "SELECT * FROM TREATMENTS AS TR JOIN ANIMALS AS A ON TR.AnimalID= A.AnimalID JOIN tasks" +
-			" AS T ON T.TaskID = TR.TaskID order by A.AnimalSpecies";
+			" AS T ON T.TaskID = TR.TaskID order by T.MaxWindow";
 
 			stmt = connect.createStatement();
 			result = stmt.executeQuery(query);
@@ -121,7 +125,6 @@ public class DbContext {
 			while (result.next()) {
 				var multipleNames = result.getString("AnimalNickname").split(ORPHANED_REGEX);
 				var orphan = multipleNames.length != 1;
-				//System.out.println(orphan);
 				Animal animal = AnimalCreaterUtil.createAnimal(result.getString("AnimalID"),
 								result.getString("AnimalNickname"),
 								result.getString("AnimalSpecies"),orphan);
@@ -139,8 +142,8 @@ public class DbContext {
 
 		} catch (SQLException e) {
 			closeAll();
-			System.err.println("SQLException in searchItems.");
-			// System.exit(1);
+			System.err.println("SQLException in getAllTreatments.");
+			e.printStackTrace();
 		}
 		return searchResults;
     }

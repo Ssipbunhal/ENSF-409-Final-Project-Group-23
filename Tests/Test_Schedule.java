@@ -37,8 +37,8 @@ public class Test_Schedule {
         schedule.createSchedule(animals, new ArrayList<Treatment>());
         
         
-        assertEquals("The feeding tasks filled the entire hour; 19", schedule.scheduleFullOnHour(19),false);
-        assertEquals("The feeding tasks should not fille the entire hour; 20", schedule.scheduleFullOnHour(20),true);
+        assertEquals("The feeding tasks filled the entire hour; 19", schedule.scheduleFullOnHour(19,0),false);
+        assertEquals("The feeding tasks should not fille the entire hour; 20", schedule.scheduleFullOnHour(20,0),true);
     } catch (InvalidAnimalTypeException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();

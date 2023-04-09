@@ -96,7 +96,7 @@ public class AddMedicalTasks extends JFrame implements ActionListener {
 
             for (var task : scheduleMap.entrySet()) {
                 outputArea.append(String.format("%02d:00", task.getKey()));
-                if (!schedule.scheduleFullOnHour(task.getKey())) {
+                if (!schedule.scheduleFullOnHour(task.getKey(),0)) {
                     outputArea.append(" [+ backup volunteer]");
                 }
                 outputArea.append("\n");

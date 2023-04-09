@@ -1,4 +1,5 @@
 package src.Schedules;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,7 +101,7 @@ public class Schedule {
             } else {
                  // Else no optimal time was found, do a random insert in the best spot. 
                 for(var a : animalList){
-                    time = IncrementTimeIfNeed(time, feedingInterval);
+                    time = IncrementTimeIfNeed(time, feedingInterval,animal.getFeedingTime().getTimeToFeed());
                     if(schedule.containsKey(time.getHour())){
                         var task = schedule.get(time.getHour());    
                         var xx = task.stream()
@@ -182,10 +183,10 @@ public class Schedule {
     /*
      * Finds a time where a the schedule is not full
      */
-    private LocalDateTime IncrementTimeIfNeed(LocalDateTime time, int feedingInterval) {
+    private LocalDateTime IncrementTimeIfNeed(LocalDateTime time, int feedingInterval, int addedTime) {
         var incrementCounter = 0;
-        if(!scheduleFullOnHour(time.getHour())){
-            while(!scheduleFullOnHour(time.getHour())){
+        if(!scheduleFullOnHour(time.getHour(),addedTime)){
+            while(!scheduleFullOnHour(time.getHour(),addedTime)){
                 if(time.getHour() >= 24 || incrementCounter == feedingInterval)
                 {
                     break;
@@ -197,17 +198,26 @@ public class Schedule {
         return time;
     }
 
+    /*
+     * Adds medical tasks to the schedule. If the maxwindow allows if, the medical 
+     * task will be moved if the schedule is full on the inital hour. 
+     */
     private void addMedicalTasks(ArrayList<Treatment> treatments) {
         for(var treatment : treatments){
-            if(schedule.containsKey(treatment.getStartHour())){
-                var task = schedule.get(treatment.getStartHour());
+            
+            var time = IncrementTimeIfNeed(LocalDate.now().atTime(treatment.getStartHour(), 0),
+                        treatment.getTaskToPreform().getMaxWindow(),
+                        treatment.getTaskToPreform().getTimeSpent());
+
+            if(schedule.containsKey(time.getHour())){
+                var task = schedule.get(time.getHour());
                 task.add(new ScheduledTask(treatment.getTaskToPreform(),
                             treatment.getAnimalToTreat().getAnimalNickname()));
             }else {
                 var set = new ArrayList<ScheduledTask>();
                 set.add(new ScheduledTask(treatment.getTaskToPreform(),
                         treatment.getAnimalToTreat().getAnimalNickname()));
-                schedule.put(treatment.getStartHour(), set);
+                schedule.put(time.getHour(), set);
             }
         }
     }
@@ -229,8 +239,8 @@ public class Schedule {
     /*
      * Helper method to see if the schedule is full
      */
-    public boolean scheduleFullOnHour(int hour){
-        var sum = 0;
+    public boolean scheduleFullOnHour(int hour, int addedTime){
+        var sum = addedTime;
         if(schedule.get(hour) == null){
             return true;
         }

@@ -11,26 +11,6 @@ public abstract class Animal {
     private boolean orphan;
     private AnimalCare feedingTime;
 
-    // public Animal(String animalID, String animalNickname, String animalSpecies,boolean orphan,FeedingTime feedingtime) {
-    //     this.animalID = animalID;
-    //     this.animalNickname = animalNickname;
-    //     this.animalSpecies = animalSpecies;
-    //     this.orphan = orphan;
-    //     // this.feedingtime = feedingtime;
-    // }
-
-    // public Animal(String animalID, String animalNickname, String animalSpecies) {
-    //     this.animalID = animalID;
-    //     this.animalNickname = animalNickname;
-    //     this.animalSpecies = animalSpecies;
-    // }
-
-    // public Animal(String animalID, String animalNickname, String animalSpecies, String animalType) {
-    //     this.animalID = animalID;
-    //     this.animalNickname = animalNickname;
-    //     this.animalSpecies = animalSpecies;
-    //     this.diurnality = animalType;
-    // }
 
     public Animal(String animalID, String animalNickname, String animalSpecies, String animalType, boolean orphan) {
         this.animalID = animalID;
@@ -81,7 +61,6 @@ public abstract class Animal {
     }
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
         return "FeedingTask - " +this.animalSpecies;
     }
 

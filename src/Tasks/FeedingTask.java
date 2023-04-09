@@ -20,7 +20,6 @@ public class FeedingTask extends ScheduledTask{
         setQuantity(getQuantity() +1);
         setTimeSpent(feedingTime.getTotalFeedingTime(getQuantity()));
         this.setAnimalNames(this.getAnimalNames() + ", " + name);
-        System.out.println(this.getAnimalNames());
     }
     
     public static String getInitialDesc(String name,String animalSpecies){
