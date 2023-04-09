@@ -1,6 +1,4 @@
 package src.FrontEnd;
-
-import com.mysql.cj.xdevapi.AddStatement;
 import src.Animals.*;
 import src.Database.DbContext;
 import src.Exceptions.InvalidAnimalTypeException;
@@ -16,8 +14,17 @@ import java.util.ArrayList;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import static src.FrontEnd.generateSchedule.isMedicalFormCompleted;
+
+/**
+ * This class represents a form for inputting medical tasks for animals.
+ * The form allows users to input animal information and task information
+ * to create a treatment schedule.
+ */
 public class MedicalTaskInputForm extends JFrame implements ActionListener {
     public static ArrayList<Treatment> treatments = new ArrayList<Treatment>();
+    public static ArrayList<Treatment> all_treatments = new ArrayList<Treatment>();
+
     private JTextArea outputArea;
     private JTextField animalIDInput;
     private JTextField animalNicknameInput;
@@ -38,14 +45,30 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
     private JButton editTaskButton;
 
     private generateSchedule schedule;
+
+    /**
+     * Constructor for the MedicalTaskInputForm class.
+     * Initializes the form and fetches treatments from the database.
+     *
+     * @param schedule The instance of the generateSchedule class.
+     * @throws SQLException                If there's an issue with the database connection.
+     * @throws ClassNotFoundException      If the DbContext class is not found.
+     * @throws InvalidAnimalTypeException If an invalid animal type is found.
+     */
+
     public MedicalTaskInputForm(generateSchedule schedule) throws SQLException, ClassNotFoundException, InvalidAnimalTypeException {
         var test = new DbContext();
         this.schedule = schedule;
-        this.treatments =  test.getAllTreatments();
+        if(!isMedicalFormCompleted){
+            this.treatments =  test.getAllTreatments();
+
+        }
 
         createUI();
     }
-
+    /**
+     * creates the user interface for the form.
+     */
     private void createUI() {
         setTitle("WildLife Rescue Centre");
         setSize(500, 500);
@@ -57,15 +80,21 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
         createEditTaskButton();
         createStartHourInputField();
     }
-
+    /**
+     * This method validates the input fields and returns true if all inputs are valid.
+     * Otherwise, it shows an error message and returns false.
+     *
+     * @return true if all inputs are valid, false otherwise.
+     */
     private boolean validateInputs() {
 
-
+        // Validate animal nickname input
         if (animalNicknameInput.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Animal Nickname cannot be empty.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
+        // Validate start hour input
         try {
             int startHour = Integer.parseInt(startHourInput.getText());
             if (startHour < 0 || startHour > 23) {
@@ -79,12 +108,13 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
         }
 
 
-
+        // Validate task description input
         if (taskDescriptionInput.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Task Description cannot be empty.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
+        // Validate task duration input
         try {
             int taskDuration = Integer.parseInt(taskDurationInput.getText());
             if (taskDuration <= 0) {
@@ -96,6 +126,7 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
             return false;
         }
 
+        // Validate task max window input
         try {
             int taskMaxWindow = Integer.parseInt(taskMaxWindowInput.getText());
             if (taskMaxWindow <= 0) {
@@ -107,6 +138,7 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
             return false;
         }
 
+        // Validate task name input
         if (taskNameInput.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Task Name cannot be empty.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
             return false;
@@ -118,8 +150,11 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
 
 
 
-
+    /**
+     * creates the "Edit Task" button and adds it to the form.
+     */
     private void createEditTaskButton() {
+        // Add layout constraints and create the button
         GridBagConstraints inputConstraints = new GridBagConstraints();
         inputConstraints.gridx = 0;
         inputConstraints.gridy = 15;
@@ -131,7 +166,12 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
     }
 
 
-
+    /**
+     * handles the action events for the form, such as submitting the form
+     * or editing a task.
+     *
+     * @param e The action event.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
@@ -139,6 +179,7 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
                 if (validateInputs()) {
                     addTreatment();
                     dispose();
+                    isMedicalFormCompleted = true;
                 }
             }
             else if (e.getSource() == editTaskButton) {
@@ -150,6 +191,11 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
             throw new RuntimeException(ex);
         }
     }
+
+    /**
+     * This method adds a window listener to the form that shows the main menu
+     * when the form is closed.
+     */
     private void addWindowListenerToShowMainMenu() {
         addWindowListener(new WindowAdapter() {
             @Override
@@ -159,7 +205,15 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
         });
     }
 
+    /**
+     * This method adds a treatment to the treatments list based on the user's input.
+     * It creates an animal, a medical task, and a treatment with the specified start hour.
+     *
+     * @throws InvalidAnimalTypeException If an invalid animal type is found.
+     */
     public void addTreatment() throws InvalidAnimalTypeException {
+
+        // Get user inputs
         String animalType = (String) animalInput.getSelectedItem();
         String animalID = animalIDInput.getText();
         String animalNickname = animalNicknameInput.getText();
@@ -172,7 +226,7 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
         String taskName = taskNameInput.getText();
 
 
-
+        // Create Animal object based on user input
         Animal fetchedAnimal;
         switch (animalType) {
             case "fox":
@@ -193,11 +247,15 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
             default:
                 throw new RuntimeException("Invalid animal type");
         }
+
+        // Create MedicalTask object based on user input
         MedicalTask fetchedTask = new MedicalTask(taskID, taskDescription, taskDuration, taskMaxWindow, taskName);
 
+        // Create Treatment object and add it to the treatments list
         Treatment newTreatment = new Treatment(fetchedAnimal, fetchedTask, startHour);
         treatments.add(newTreatment);
 
+        // Clear input fields for next treatment input
         animalIDInput.setText("");
         animalNicknameInput.setText("");
         orphanedInput.setSelected(false);
@@ -208,7 +266,12 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
         taskMaxWindowInput.setText("");
         taskNameInput.setText("");
     }
+    /**
+     * This method creates and adds the animal input fields to the form.
+     */
     private void createAnimalInputFields() {
+
+        // Add layout constraints and create input fields
         GridBagConstraints inputConstraints = new GridBagConstraints();
         inputConstraints.gridx = 0;
         inputConstraints.gridy = 1;
@@ -242,7 +305,12 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
         inputConstraints.gridy = 6;
         inputConstraints.gridy = 7;
     }
+    /**
+     * This method creates and adds the "Add Treatment" submit button to the form.
+     */
     private void createSubmitButton() {
+
+        // Add layout constraints and create the button
         GridBagConstraints inputConstraints = new GridBagConstraints();
         inputConstraints.gridx = 1;
         inputConstraints.gridy = 14; // Adjusted this value
@@ -252,17 +320,14 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
         submitButton.addActionListener(this);
         add(submitButton, inputConstraints);
     }
-    private void createEditButton() {
-        GridBagConstraints inputConstraints = new GridBagConstraints();
-        inputConstraints.gridx = 1;
-        inputConstraints.gridy = 14;
-        inputConstraints.insets = new Insets(5, 10, 5, 10);
 
-        submitEdit = new JButton("Add Treatment");
-        submitEdit.addActionListener(this);
-        add(submitEdit, inputConstraints);
-    }
+
+    /**
+     * This method creates and adds the task input fields to the form.
+     */
     private void createTaskInputFields() {
+
+        // Add layout constraints and create input fields
         GridBagConstraints inputConstraints = new GridBagConstraints();
         inputConstraints.gridx = 0;
         inputConstraints.gridy = 8;
@@ -305,6 +370,9 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * This method creates and adds the start hour input field to the form.
+     */
     private void createStartHourInputField() {
         GridBagConstraints inputConstraints = new GridBagConstraints();
         inputConstraints.gridx = 0;
@@ -316,20 +384,5 @@ public class MedicalTaskInputForm extends JFrame implements ActionListener {
         inputConstraints.gridx = 1;
         add(startHourInput, inputConstraints);
     }
-    private void createOutputArea() {
-        outputArea = new JTextArea();
-        outputArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(outputArea);
 
-        GridBagConstraints outputConstraints = new GridBagConstraints();
-        outputConstraints.gridx = 2;
-        outputConstraints.gridy = 0;
-        outputConstraints.gridheight = 15;
-        outputConstraints.fill = GridBagConstraints.BOTH;
-        outputConstraints.weightx = 1.0;
-        outputConstraints.weighty = 1.0;
-        outputConstraints.insets = new Insets(10, 10, 10, 10);
-
-        add(scrollPane, outputConstraints);
-    }
 }

@@ -1,9 +1,7 @@
 package src.FrontEnd;
-import src.Animals.*;
 import src.Database.DbContext;
 import src.Exceptions.InvalidAnimalTypeException;
 import src.Schedules.Schedule;
-import src.Tasks.MedicalTask;
 import src.Tasks.ScheduledTask;
 import src.Treatment;
 import src.WildlifeRescueCentre;
@@ -12,43 +10,53 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.StringWriter;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
-
+/**
+ * The generateSchedule class is a JFrame that provides a user interface for
+ * adding animals, medical tasks, and generating a schedule for the Wildlife Rescue Centre.
+ * The class allows users to input data related to animals and medical tasks, and
+ * then generates a schedule.
+ */
 public class generateSchedule extends JFrame implements ActionListener {
-//    private JTextField taskIDInput;
-//    private JTextField taskDescriptionInput;
-//    private JTextField taskDurationInput;
-//    private JTextField taskMaxWindowInput;
-//    private JTextField taskNameInput;
-//    private JTextField animalIDInput;
-//    private JTextField animalNicknameInput;
-//    private JTextField animalSpeciesInput;
-//    private JCheckBox orphanedInput;
-//    private JComboBox animalInput;
-//    private JTextField taskInput;
-//    private JTextField startHourInput;
+
     private JButton submitButton;
     private JButton executeButton;
     private JTextArea outputArea;
-//    private ArrayList<Animal> animals;
     private ArrayList<Treatment> treatments = new ArrayList<Treatment>();
     private WildlifeRescueCentre centre = new WildlifeRescueCentre();
-
     private JButton animalInputButton;
     private JButton medicalTaskInputButton;
+    public static boolean isMedicalFormCompleted = false;
+
+    /**
+     * Constructor to initialize the generateSchedule frame.
+     */
     public generateSchedule() throws SQLException, InvalidAnimalTypeException, ClassNotFoundException {
         createUI();
     }
+    /**
+     * Constructor for the MedicalTaskInputForm class.
+     * Initializes the form and fetches treatments from the database.
+     *
+     * @param previousSchedule The instance of the generateSchedule class.
+     * @throws SQLException                If there's an issue with the database connection.
+     * @throws ClassNotFoundException      If the DbContext class is not found.
+     * @throws InvalidAnimalTypeException  If an invalid animal type is found.
+     */
     public generateSchedule(generateSchedule previousSchedule) throws SQLException, InvalidAnimalTypeException, ClassNotFoundException {
         createUI();
     }
+
+    /**
+     * Creates the user interface for the generateSchedule frame.
+     * @throws SQLException                If there's an issue with the database connection.
+     * @throws ClassNotFoundException      If the DbContext class is not found.
+     * @throws InvalidAnimalTypeException  If an invalid animal type is found.
+     */
     public void createUI() throws SQLException, InvalidAnimalTypeException, ClassNotFoundException {
         setTitle("WildLife Rescue Centre");
         setSize(800, 700);
@@ -71,57 +79,27 @@ public class generateSchedule extends JFrame implements ActionListener {
 
         createGenerateScheduleButton();
         createOutputArea();
-        executeCode();
+        refreshSchedule();
     }
 
-//    private void createAnimalInputFields() {
-//        GridBagConstraints inputConstraints = new GridBagConstraints();
-//        inputConstraints.gridx = 0;
-//        inputConstraints.gridy = 1;
-//        inputConstraints.insets = new Insets(0, 10, 10, 10);
-//
-//        String[] animalChoices = {"fox", "coyote", "beaver", "porcupine", "raccoon"};
-//        animalInput = new JComboBox<>(animalChoices);
-//        add(new JLabel("Animal Type: "), inputConstraints);
-//        inputConstraints.gridx = 1;
-//        add(animalInput, inputConstraints);
-//        inputConstraints.gridx = 0;
-//        inputConstraints.gridy = 2;
-//        animalIDInput = new JTextField(10);
-//        add(new JLabel("Animal ID: "), inputConstraints);
-//        inputConstraints.gridx = 1;
-//        add(animalIDInput, inputConstraints);
-//
-//        inputConstraints.gridx = 0;
-//        inputConstraints.gridy = 3;
-//        animalNicknameInput = new JTextField(10);
-//        add(new JLabel("Animal Nickname: "), inputConstraints);
-//        inputConstraints.gridx = 1;
-//        add(animalNicknameInput, inputConstraints);
-//
-//
-//        inputConstraints.gridx = 0;
-//        inputConstraints.gridy = 4;
-//        orphanedInput = new JCheckBox("Orphaned");
-//        add(orphanedInput, inputConstraints);
-//
-//        inputConstraints.gridy = 6;
-//        inputConstraints.gridy = 7;
-//    }
 
 
-
+    /**
+     * Creates the "Add Treatment" submit button.
+     */
     private void createSubmitButton() {
         GridBagConstraints inputConstraints = new GridBagConstraints();
         inputConstraints.gridx = 1;
-        inputConstraints.gridy = 14; // Adjusted this value
+        inputConstraints.gridy = 14;
         inputConstraints.insets = new Insets(5, 10, 5, 10);
 
         submitButton = new JButton("Add Treatment");
         submitButton.addActionListener(this);
         add(submitButton, inputConstraints);
     }
-
+    /**
+     * Creates the "Generate Schedule" button.
+     */
     private void createGenerateScheduleButton() {
         GridBagConstraints buttonConstraints = new GridBagConstraints();
         buttonConstraints.gridx = 1;
@@ -134,6 +112,9 @@ public class generateSchedule extends JFrame implements ActionListener {
         add(executeButton, buttonConstraints);
     }
 
+    /**
+     * Creates the output area for displaying the generated schedule.
+     */
     private void createOutputArea() {
         outputArea = new JTextArea();
         outputArea.setEditable(false);
@@ -151,7 +132,12 @@ public class generateSchedule extends JFrame implements ActionListener {
         add(scrollPane, outputConstraints);
     }
 
-
+    /**
+     * handles the action events for the frame, such as opening an add medical task form
+     * or an add animal form. Also handles the regeneration of a new schedule.
+     *
+     * @param e The action event.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == animalInputButton) {
@@ -172,7 +158,7 @@ public class generateSchedule extends JFrame implements ActionListener {
         } else if(e.getSource() == executeButton){
             try {
                 outputArea.setText(""); // Clear the output area
-                executeCode();
+                refreshSchedule();
             } catch (InvalidAnimalTypeException ex) {
                 throw new RuntimeException(ex);
             } catch (SQLException ex) {
@@ -184,16 +170,27 @@ public class generateSchedule extends JFrame implements ActionListener {
 
     }
 
-
-    public void executeCode() throws InvalidAnimalTypeException, SQLException, ClassNotFoundException {
-        var test = new DbContext();
-        var testAnimal = test.getAllAnimals();
-        var testTreatments = test.getAllTreatments();
-        testTreatments.addAll(MedicalTaskInputForm.treatments);
-        testAnimal.addAll(AnimalInputForm.animals);
+    /**
+     * This method refreshes the schedule based on newly inputted medical tasks ,animals and database tasks.
+     *
+     * @throws SQLException                If there's an issue with the database connection.
+     * @throws ClassNotFoundException      If the DbContext class is not found.
+     * @throws InvalidAnimalTypeException  If an invalid animal type is found.
+     */
+    public void refreshSchedule() throws InvalidAnimalTypeException, SQLException, ClassNotFoundException {
+        var db = new DbContext();
+        var allAnimals = db.getAllAnimals();
+        ArrayList<Treatment> testTreatments = new ArrayList<Treatment>();
+        if(isMedicalFormCompleted){
+            testTreatments = MedicalTaskInputForm.treatments;
+        }
+        else{
+            testTreatments = db.getAllTreatments();
+        }
+        allAnimals.addAll(AnimalInputForm.animals);
         try {
             var schedule = new Schedule();
-            Map<Integer, ArrayList<ScheduledTask>> schedule1 = schedule.createSchedule(testAnimal, testTreatments);
+            Map<Integer, ArrayList<ScheduledTask>> schedule1 = schedule.createSchedule(allAnimals, testTreatments);
 
             outputArea.append("Schedule for " + LocalDate.now().toString() + "\n\n");
 
@@ -220,7 +217,14 @@ public class generateSchedule extends JFrame implements ActionListener {
 
 
 
-
+    /**
+     * The main method is the entry point of the generateSchedule application.
+     * It creates a new instance of the generateSchedule JFrame and displays it.
+     * The method handles SQLException, InvalidAnimalTypeException, and ClassNotFoundException
+     * by wrapping them in a RuntimeException.
+     *
+     * @param args Command line arguments
+     */
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             generateSchedule frame = null;

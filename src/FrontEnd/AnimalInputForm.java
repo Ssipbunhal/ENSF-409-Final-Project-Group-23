@@ -12,6 +12,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
+/**
+ * This class represents a form for adding animals to the centre.
+ * The form allows users to input animal information and add them to the Wild Life Rescue Centre.
+ */
 public class AnimalInputForm extends JFrame implements ActionListener {
     private JButton submitButton;
     public static ArrayList<Animal> animals = new ArrayList<Animal>();
@@ -21,12 +25,22 @@ public class AnimalInputForm extends JFrame implements ActionListener {
     private JComboBox animalInput;
     private generateSchedule schedule;
 
+    /**
+     * Constructor for the AnimalInputForm class.
+     * Initializes the form and creates an instance of the current schedule.
+     *
+     * @param schedule The instance of the generateSchedule class.
 
+     */
     public AnimalInputForm(generateSchedule schedule) {
         this.schedule = schedule;
         createUI();
 
     }
+
+    /**
+     * creates the user interface for the form.
+     */
     private void createUI() {
         setTitle("WildLife Rescue Centre");
         setSize(500, 500);
@@ -36,6 +50,9 @@ public class AnimalInputForm extends JFrame implements ActionListener {
         addWindowListenerToShowMainMenu();
     }
 
+    /**
+     * creates the "Add Animal" button and adds it to the form.
+     */
     private void createSubmitButton() {
         GridBagConstraints inputConstraints = new GridBagConstraints();
         inputConstraints.gridx = 1;
@@ -55,6 +72,10 @@ public class AnimalInputForm extends JFrame implements ActionListener {
         });
     }
 
+    /**
+     * handles the action events for the form, such as submitting the form.
+     * @param e The action event.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(e);
@@ -71,6 +92,12 @@ public class AnimalInputForm extends JFrame implements ActionListener {
             }
     }
 
+    /**
+     * This method adds an animal to the list of animals on the Wild Life Rescue Centre
+     * based on the inputted information in the form.
+     *
+     * @throws InvalidAnimalTypeException If an invalid animal type is found.
+     */
     private void addAnimal() throws InvalidAnimalTypeException {
         String animalType = (String) animalInput.getSelectedItem();
         String animalID = animalIDInput.getText();
@@ -100,6 +127,13 @@ public class AnimalInputForm extends JFrame implements ActionListener {
         animals.add(fetchedAnimal);
 
     }
+
+    /**
+     * This method validates the input fields and returns true if all inputs are valid.
+     * Otherwise, it shows an error message and returns false.
+     *
+     * @return true if all inputs are valid, false otherwise.
+     */
     private boolean validateInputs() {
 
 
@@ -111,6 +145,10 @@ public class AnimalInputForm extends JFrame implements ActionListener {
 
         return true;
     }
+
+    /**
+     * This method creates and adds the animal input fields to the form.
+     */
     private void createAnimalInputFields() {
 
         GridBagConstraints inputConstraints = new GridBagConstraints();
