@@ -204,12 +204,12 @@ public class Schedule {
      * task will be moved if the schedule is full on the inital hour. 
      */
     private void addMedicalTasks(ArrayList<Treatment> treatments) {
-        
+        Collections.sort(treatments, (o1, o2) -> o1.getTaskToPreform().getMaxWindow().compareTo(o2.getTaskToPreform().getMaxWindow()));
         for(var treatment : treatments){     
             var time = IncrementTimeIfNeed(LocalDate.now().atTime(treatment.getStartHour(), 0),
                         treatment.getTaskToPreform().getMaxWindow(),
                         treatment.getTaskToPreform().getTimeSpent());
-
+            
             if(schedule.containsKey(time.getHour())){
                 var task = schedule.get(time.getHour());
                 task.add(new ScheduledTask(treatment.getTaskToPreform(),
