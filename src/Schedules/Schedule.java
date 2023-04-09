@@ -188,7 +188,7 @@ public class Schedule {
         var incrementCounter = 0;
         if(!scheduleFullOnHour(time.getHour(),addedTime)){
             while(!scheduleFullOnHour(time.getHour(),addedTime)){
-                if(time.getHour() >= 24 || incrementCounter == feedingInterval)
+                if(time.getHour() >= 24 || incrementCounter == feedingInterval || addedTime > 60)
                 {
                     break;
                 } 
