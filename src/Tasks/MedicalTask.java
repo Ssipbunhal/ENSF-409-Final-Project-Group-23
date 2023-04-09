@@ -17,9 +17,5 @@ public class MedicalTask  extends ScheduledTask {
     public void setMaxWindow(int maxWindow) {
         this.maxWindow = maxWindow;
     }
-
-    // public String getInitialDesc(String desc){
-    //     return "* " + desc +" ( #names# )";
-    // }
 }
 

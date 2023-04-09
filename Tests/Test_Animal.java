@@ -2,7 +2,6 @@ import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
 
-import src.Animals.Animal;
 import src.Animals.Beaver;
 import src.Animals.Coyote;
 import src.Animals.Fox;

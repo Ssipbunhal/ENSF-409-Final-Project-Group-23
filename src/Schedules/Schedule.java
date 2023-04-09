@@ -2,6 +2,7 @@ package src.Schedules;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,9 +84,9 @@ public class Schedule {
      * If the code returns -1 no such hours exists and the animals will be randomly inserted. 
      * else all the animals will be inserted into that hour. 
      */
-    private void AddFeedingTasks(ArrayList<Animal> animals) {
-        removeOrphanFromList(animals);
-
+    private void AddFeedingTasks(ArrayList<Animal> list) {
+        var animals = removeOrphanFromList(list);
+        
         for(var animalList : animals.stream().collect(Collectors.groupingBy(Animal::getAnimalSpecies)).values()){
             var animal = animalList.get(0);
            var time = animal.getFeedingTime().getFeedtime();
@@ -122,7 +123,7 @@ public class Schedule {
     /*
      * Removes all oprthans from an arraylist
      */
-    private static List<Animal> removeOrphanFromList(ArrayList<Animal> animals){
+    private  List<Animal> removeOrphanFromList(ArrayList<Animal> animals){
         return animals.stream()
                 .filter(c -> c != null)
                 .filter(c -> !c.getOrphan())
@@ -203,8 +204,8 @@ public class Schedule {
      * task will be moved if the schedule is full on the inital hour. 
      */
     private void addMedicalTasks(ArrayList<Treatment> treatments) {
-        for(var treatment : treatments){
-            
+        
+        for(var treatment : treatments){     
             var time = IncrementTimeIfNeed(LocalDate.now().atTime(treatment.getStartHour(), 0),
                         treatment.getTaskToPreform().getMaxWindow(),
                         treatment.getTaskToPreform().getTimeSpent());

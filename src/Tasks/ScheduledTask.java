@@ -3,7 +3,6 @@ package src.Tasks;
 
 public class ScheduledTask implements Comparable<ScheduledTask> {
 
-    // private String taskDescription;
     private int quantity;
     private int timeSpent;
     private String id;
