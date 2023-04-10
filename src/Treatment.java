@@ -1,3 +1,8 @@
+/**
+ * This class is connecting class between the animal
+ * and the treatment it needs to receive. 
+ * @author Erik Öberg
+ */
 package src;
 
 import src.Animals.Animal;

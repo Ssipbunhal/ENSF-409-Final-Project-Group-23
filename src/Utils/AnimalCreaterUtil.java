@@ -1,3 +1,9 @@
+/**
+ * This class is a helper class which is corrently used by the database
+ * to create animals from the database query.
+ * @author Erik Öberg
+ * @since 2023-04-11
+ */
 package src.Utils;
 
 import src.Animals.Animal;

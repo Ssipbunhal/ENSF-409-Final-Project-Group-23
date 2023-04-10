@@ -1,3 +1,8 @@
+/**
+ * This class represents the coyote class, which extends
+ * the base class animal.
+ * @author Erik Öberg
+ */
 package src.Animals;
 
 import java.time.LocalDate;

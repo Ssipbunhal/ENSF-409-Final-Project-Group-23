@@ -1,6 +1,9 @@
+/**
+ * This class is a base class which is used by the schedule to 
+ * represent tasks that needs to be completed. 
+ * @author Erik Öberg
+ */
 package src.Tasks;
-
-
 public class ScheduledTask implements Comparable<ScheduledTask> {
 
     private int quantity;

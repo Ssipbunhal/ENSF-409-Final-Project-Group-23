@@ -1,3 +1,7 @@
+/**
+ * This class is the base class for the animals
+ * @author Erik Öberg
+ */
 package src.Animals;
 
 import src.AnimalCare;

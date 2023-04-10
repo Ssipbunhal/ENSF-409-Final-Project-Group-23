@@ -1,3 +1,9 @@
+/**
+ * This class represents the feeding task which an animal 
+ * type is required to receive. This includes cleaning the cage and 
+ * feeding.
+ * @author Erik Öberg
+ */
 package src;
 
 import java.time.LocalDateTime;

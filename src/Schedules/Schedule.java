@@ -1,3 +1,11 @@
+/**
+ * This is the class which recreates a schedule from an animal 
+ * list and a list of treatments. The goal of this class is to
+ * minimize the number of times an hour on the schedule exceeds
+ * 60 minutes of tasks. This is done by shifting tasks based on the 
+ * time interval they need to be done in. 
+ * @author Erik Öberg
+ */
 package src.Schedules;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

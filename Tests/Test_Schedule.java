@@ -18,7 +18,7 @@ import src.Schedules.Schedule;
 public class Test_Schedule {
     
     
-    /*
+    /**
      * The schedule needs to know if the schedule requires a 
      * backup. This will test this method by passing 
      * 18 animals to the schedule. The first hour (19) will be filled
@@ -46,7 +46,7 @@ public class Test_Schedule {
     }
 
 
-    /*
+    /**
      * The time to feed animal should be dynamic and change 
      * the time of feeding if the hour is already filled up
      * with other tasks. 
@@ -75,7 +75,7 @@ public class Test_Schedule {
 
 
 
-    /*
+    /**
      * Nocturnal animals are fed in a 3-hour window starting at midnight (0). 
      * That is, feeding is scheduled for 12 AM, 1 AM, or 2 AM.
      * This tests: foxes and raccoons 
@@ -95,7 +95,7 @@ public class Test_Schedule {
         }
     }
 
-    /*
+    /**
      * Diurnal animals are fed in a 3-hour window starting at 8 AM (8).
      * This tests: beavers
      */
@@ -114,7 +114,7 @@ public class Test_Schedule {
         }
     }
 
-    /*
+    /**
      * Crepuscular animals are fed in a 3-hour 
      * window starting at 7 PM (19) - 9 PM (21).
      * This tests: coyote and Porcupines
