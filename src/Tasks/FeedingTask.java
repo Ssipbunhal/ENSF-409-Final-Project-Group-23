@@ -1,3 +1,9 @@
+/**
+ * This class extends ScheduledTask, which is used in the schedule.
+ * This class stores relevant data related to feeding 1 or more animals. 
+ * Animals can be added to the task by using addAnimalToTask. 
+ * @author Erik Öberg
+ */
 package src.Tasks;
 
 import src.AnimalCare;

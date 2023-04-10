@@ -1,3 +1,8 @@
+/**
+ * This class extends ScheduledTask, which is used in the schedule.
+ * This class represents a medical task in the schedule.
+ * @author Erik Öberg
+ */
 package src.Tasks;
 
 public class MedicalTask  extends ScheduledTask {

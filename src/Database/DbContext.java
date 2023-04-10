@@ -1,3 +1,10 @@
+/**
+ * This class is the database context, which the application uses
+ * to connect to the database. The default connection settings are found in the 
+ * constants.
+ * This class will only extract data from the database, not change it. 
+ * @author Erik Öberg
+ */
 package src.Database;
 import java.sql.Connection;
 import java.sql.DriverManager;
