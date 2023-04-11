@@ -79,32 +79,44 @@ public class Test_Animal {
 
     @Test
     public void testFeedCoyote() {
-        // Animal coyote = new Animal("coyote");
-        //TODO: Test feeding a coyote
+        assertThrows("Should throw InvalidAnimalTypeException if invalid animal type",
+            InvalidAnimalTypeException.class, 
+        () -> {
+            Coyote coyote = new Coyote("Test", "coyote test", "coyote", false);
+            coyote.feed(); // calling the feed method on coyote object
+        });
     }
 
     @Test
     public void testFeedFox() {
-        // Animal fox = new Animal("fox");
-        //TODO: Test feeding a fox
+        Fox fox = new Fox("Test", "fox test", "fox", false); // Create a new instance of Fox
+        String expected = "Feeding fox"; // Set the expected result
+        String actual = fox.feed(); // Call the feed method on the fox instance
+        assertEquals(expected, actual); // Assert that the expected result matches the actual result
     }
 
     @Test
     public void testFeedPorcupine() {
-        // Animal porcupine = new Animal("porcupine");
-        //TODO: Test feeding a porcupine
+        Porcupine porcupine = new Porcupine("Test", "porcupine test", "porcupine", true); // Create a new instance of Porcupine
+        String expected = "Feeding porcupine"; // Set the expected result
+        String actual = porcupine.feed(); // Call the feed method on the porcupine instance
+        assertEquals(expected, actual); // Assert that the expected result matches the actual result
     }
 
     @Test
     public void testFeedRaccoon() {
-        // Animal raccoon = new Animal("raccoon");
-        //TODO: Test feeding a raccoon
+        Raccoon raccoon = new Raccoon("Test", "raccoon test", "raccoon", false); // Create a new instance of Raccoon
+        String expected = "Feeding raccoon"; // Set the expected result
+        String actual = raccoon.feed(); // Call the feed method on the fox instance
+        assertEquals(expected, actual); // Assert that the expected result matches the actual result
     }
 
     @Test
     public void testFeedBeaver() {
-        // Animal beaver = new Animal("beaver");
-        //TODO: Test feeding a beaver
+        Beaver beaver = new Beaver("Test", "beaver test", "beaver", false); // Create a new instance of Beaver
+        String expected = "Feeding beaver"; // Set the expected result
+        String actual = beaver.feed(); // Call the feed method on the beaver instance
+        assertEquals(expected, actual); // Assert that the expected result matches the actual result
     }
 
     @Test
