@@ -121,33 +121,107 @@ public class Test_Animal {
 
     @Test
     public void testCleanCage() {
-        // Animal animal = new Animal("coyote");
-        //TODO: Test cleaning a cage
+        Beaver beaver = new Beaver("Test", "beaver test", "beaver", false); // Create a new instance of Beaver
+        beaver.cleanCage(); // Call the cleanCage method on the beaver instance
+        assertTrue("Beaver cage should be clean", beaver.isCageClean()); // Assert that the beaver cage is clean
     }
 
     @Test
     public void testFeedOrphanedAnimals() {
-        // Animal animal1 = new Animal("coyote");
-        // Animal animal2 = new Animal("coyote");
-        //TODO: Test feeding orphaned animals
+        // Create some orphaned animals for testing
+        Fox fox = new Fox("fox test", "fox", true);
+        Raccoon raccoon = new Raccoon("raccoon test", "raccoon", true);
+        Porcupine porcupine = new Porcupine("porcupine test", "porcupine", true);
+
+         // Feed the orphaned animals
+         fox.feed();
+         raccoon.feed();
+         porcupine.feed();
+
+         // Assert that the orphaned animals are fed
+         assertTrue("Fox should be fed", fox.isFed());
+         assertTrue("Raccoon should be fed", raccoon.isFed());
+         assertTrue("Porcupine should be fed", porcupine.isFed());
     }
 
     @Test
     public void testNocturnalFeeding() {
-        // Animal animal = new Animal("fox");
-        //TODO: Test nocturnal feeding
+         Fox fox = new Fox("Foxy", "fox test", "fox", true);
+    
+         // Set the time to night in the animal care system
+         AnimalCareSystem.setIsNight(true);
+
+         // Feed the nocturnal animal
+         fox.feed();
+
+         // Assert that the nocturnal animal is fed
+         assertTrue("Fox should be fed during the night", fox.isFed());
+
+         // Set the time to day in the animal care system
+         AnimalCareSystem.setIsNight(false);
+
+         // Attempt to feed the nocturnal animal during the day
+         fox.feed();
+
+         // Assert that the nocturnal animal is not fed during the day
+         assertFalse("Fox should not be fed during the day", fox.isFed());
     }
 
     @Test
     public void testDiurnalFeeding() {
-        // Animal animal = new Animal("beaver");
-        //TODO: Test diurnal feeding
+         
+          Fox fox = new Fox("Foxy", "fox test", "fox", false);
+    
+         // Set the time to day in the animal care system
+         AnimalCareSystem.setIsNight(false);
+
+         // Feed the diurnal animal
+         fox.feed();
+
+         // Assert that the diurnal animal is fed
+         assertTrue("Fox should be fed during the day", fox.isFed());
+
+         // Set the time to night in the animal care system
+         AnimalCareSystem.setIsNight(true);
+
+         // Attempt to feed the diurnal animal during the night
+         fox.feed();
+
+         // Assert that the diurnal animal is not fed during the night
+         assertFalse("Fox should not be fed during the night", fox.isFed());
     }
 
     @Test
     public void testCrepuscularFeeding() {
-        // Animal animal = new Animal("coyote");
-        //TODO: Test crepuscular feeding
+         Coyote coyote = new Coyote("Wiley", "coyote test", "coyote", false);
+
+         // Set the time to twilight in the animal care system
+         AnimalCareSystem.setIsTwilight(true);
+
+         // Feed the crepuscular animal
+         coyote.feed();
+
+         // Assert that the crepuscular animal is fed during twilight
+         assertTrue("Coyote should be fed during twilight", coyote.isFed());
+
+         // Set the time to day in the animal care system
+         AnimalCareSystem.setIsTwilight(false);
+         AnimalCareSystem.setIsNight(false);
+
+         // Attempt to feed the crepuscular animal during the day
+         coyote.feed();
+
+         // Assert that the crepuscular animal is not fed during the day
+         assertFalse("Coyote should not be fed during the day", coyote.isFed());
+
+         // Set the time to night in the animal care system
+         AnimalCareSystem.setIsNight(true);
+
+         // Attempt to feed the crepuscular animal during the night
+         coyote.feed();
+
+         // Assert that the crepuscular animal is not fed during the night
+         assertFalse("Coyote should not be fed during the night", coyote.isFed());
     }
 }
 
